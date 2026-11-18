@@ -27,30 +27,31 @@ export const LearningPath: React.FC<LearningPathProps> = ({
   if (!nextAvailableUnit) nextAvailableUnit = tracks[0].units[0];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#F8FAFC' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#0B0F19' }}>
       {/* Scrollable Node Path */}
       <div style={{ flex: 1, overflowY: 'auto', padding: '16px 16px 80px' }}>
         {tracks.map((track) => (
           <div key={track.id} style={{ marginBottom: '32px' }}>
-            {/* Track Banner Card */}
+            {/* Track Banner Card (Cyber-Bento Obsidian with Amber Accents) */}
             <div
               style={{
-                background: `linear-gradient(135deg, ${track.color}, #1E293B)`,
+                background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(15, 23, 42, 0.9))',
                 borderRadius: '20px',
                 padding: '16px 18px',
+                border: '1px solid rgba(245, 158, 11, 0.25)',
                 color: '#FFFFFF',
                 marginBottom: '24px',
-                boxShadow: '0 4px 10px -2px rgba(0,0,0,0.1)'
+                boxShadow: '0 4px 20px -2px rgba(245, 158, 11, 0.1)'
               }}
             >
-              <div style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', opacity: 0.9 }}>
-                COMMUTE TRACK
+              <div style={{ fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#F59E0B', fontFamily: 'monospace' }}>
+                COMMUTE SECTOR
               </div>
-              <div style={{ fontSize: '17px', fontWeight: 800, margin: '2px 0' }}>{track.title}</div>
-              <div style={{ fontSize: '12px', opacity: 0.85 }}>💡 {track.metaphor}</div>
+              <div style={{ fontSize: '17px', fontWeight: 800, margin: '2px 0', color: '#F8FAFC' }}>{track.title}</div>
+              <div style={{ fontSize: '12px', color: '#94A3B8' }}>💡 {track.metaphor}</div>
             </div>
 
-            {/* Winding Duolingo Node Path */}
+            {/* Winding Node Path */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '22px' }}>
               {track.units.map((unit, index) => {
                 const offsets = [0, -32, 32, 0];
@@ -76,16 +77,17 @@ export const LearningPath: React.FC<LearningPathProps> = ({
                         style={{
                           position: 'absolute',
                           top: '-28px',
-                          background: '#22C55E',
-                          color: '#FFFFFF',
+                          background: '#F59E0B',
+                          color: '#0B0F19',
                           padding: '3px 10px',
                           borderRadius: '12px',
                           fontSize: '11px',
-                          fontWeight: 800,
+                          fontWeight: 900,
                           letterSpacing: '0.04em',
-                          boxShadow: '0 2px 6px rgba(0,0,0,0.12)',
+                          boxShadow: '0 0 12px rgba(245, 158, 11, 0.5)',
                           animation: 'bounce 1s infinite alternate',
-                          zIndex: 5
+                          zIndex: 5,
+                          fontFamily: 'monospace'
                         }}
                       >
                         COMMUTE · 5 MIN
@@ -104,25 +106,25 @@ export const LearningPath: React.FC<LearningPathProps> = ({
                         height: '74px',
                         borderRadius: '50%',
                         border: isNext
-                          ? '4px solid #22C55E'
+                          ? '3px solid #F59E0B'
                           : isCompleted
-                          ? '4px solid #F59E0B'
-                          : '4px solid #CBD5E1',
+                          ? '3px solid #FDE047'
+                          : '2px solid #334155',
                         background: isNext
-                          ? '#FFFFFF'
+                          ? '#1E1B18'
                           : isCompleted
-                          ? '#FEF3C7'
-                          : '#E2E8F0',
+                          ? '#292010'
+                          : '#0F172A',
                         fontSize: '28px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         cursor: isLocked ? 'not-allowed' : 'pointer',
                         boxShadow: isNext
-                          ? '0 8px 16px -2px rgba(34, 197, 94, 0.4), 0 4px 0 #16A34A'
+                          ? '0 0 20px rgba(245, 158, 11, 0.4), 0 4px 0 #B45309'
                           : isCompleted
-                          ? '0 4px 8px rgba(0,0,0,0.08), 0 4px 0 #D97706'
-                          : '0 4px 0 #94A3B8',
+                          ? '0 0 10px rgba(253, 224, 71, 0.2), 0 4px 0 #854D0E'
+                          : '0 4px 0 #1E293B',
                         position: 'relative'
                       }}
                     >
@@ -131,10 +133,10 @@ export const LearningPath: React.FC<LearningPathProps> = ({
 
                     {/* Node Title & Subtitle */}
                     <div style={{ marginTop: '6px', textAlign: 'center', maxWidth: '140px' }}>
-                      <div style={{ fontSize: '13px', fontWeight: 800, color: isLocked ? '#94A3B8' : '#1E293B' }}>
+                      <div style={{ fontSize: '13px', fontWeight: 800, color: isLocked ? '#64748B' : '#F8FAFC' }}>
                         {unit.title}
                       </div>
-                      <div style={{ fontSize: '11px', color: '#64748B', lineHeight: '1.2', marginTop: '2px' }}>
+                      <div style={{ fontSize: '11px', color: '#94A3B8', lineHeight: '1.2', marginTop: '2px' }}>
                         {unit.subtitle}
                       </div>
                     </div>
@@ -151,12 +153,12 @@ export const LearningPath: React.FC<LearningPathProps> = ({
         style={{
           position: 'sticky',
           bottom: 0,
-          background: '#FFFFFF',
-          borderTop: '2px solid #E2E8F0',
+          background: '#0B0F19',
+          borderTop: '1px solid rgba(245, 158, 11, 0.2)',
           padding: '12px 16px',
           display: 'flex',
           gap: '12px',
-          boxShadow: '0 -4px 10px rgba(0,0,0,0.03)'
+          boxShadow: '0 -4px 15px rgba(0,0,0,0.5)'
         }}
       >
         <button
@@ -170,21 +172,22 @@ export const LearningPath: React.FC<LearningPathProps> = ({
             flex: 1,
             padding: '14px',
             borderRadius: '16px',
-            background: '#22C55E',
-            color: '#FFFFFF',
+            background: 'linear-gradient(135deg, #F59E0B, #D97706)',
+            color: '#070A11',
             border: 'none',
-            fontWeight: 800,
+            fontWeight: 900,
             fontSize: '15px',
             cursor: 'pointer',
-            boxShadow: '0 4px 0 #16A34A',
+            boxShadow: '0 0 18px rgba(245, 158, 11, 0.35), 0 4px 0 #92400E',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '8px'
+            gap: '8px',
+            fontFamily: 'monospace'
           }}
         >
           <span>▶</span>
-          <span>Play: {nextAvailableUnit?.title || 'Commute Lesson'}</span>
+          <span>LAUNCH: {nextAvailableUnit?.title || 'COMMUTE LESSON'}</span>
         </button>
       </div>
     </div>

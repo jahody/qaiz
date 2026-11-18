@@ -8,7 +8,7 @@ import { LeaderboardScreen } from './components/LeaderboardScreen';
 import { SettingsModal } from './components/SettingsModal';
 import { sound } from './utils/sound';
 
-const STORAGE_KEY = 'qaiz_user_progress_v1';
+const STORAGE_KEY = 'qaiz_user_progress_v2';
 
 const DEFAULT_STATS: UserStats = {
   hearts: 5,
@@ -43,7 +43,7 @@ export function App() {
     sound.enabled = stats.soundEnabled;
   }, [stats.soundEnabled]);
 
-  // Save to localStorage on state changes
+  // Save to localStorage
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
@@ -52,7 +52,7 @@ export function App() {
     }
   }, [stats]);
 
-  // Check heart automatic refill (1 heart every 4 hours = 14,400,000 ms)
+  // Automatic heart refill check (1 heart every 4 hours)
   useEffect(() => {
     const checkRefill = () => {
       const now = Date.now();
@@ -113,7 +113,7 @@ export function App() {
     <div
       style={{
         minHeight: '100vh',
-        background: '#0F172A',
+        background: '#070A11',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -136,9 +136,16 @@ export function App() {
           padding: '0 8px'
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#F8FAFC', fontWeight: 800 }}>
-          <span style={{ fontSize: '18px' }}>⚡</span>
-          <span>Qaiz · AI Commute Learning</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#F8FAFC', fontWeight: 800 }}>
+          {/* Synapse Core Mini Logo */}
+          <svg width="22" height="22" viewBox="0 0 64 64">
+            <polygon points="32,8 54,20 54,44 32,56 10,44 10,20" fill="none" stroke="#F59E0B" strokeWidth="4" strokeLinejoin="round" />
+            <circle cx="32" cy="32" r="8" fill="#FDE047" />
+            <line x1="32" y1="8" x2="32" y2="24" stroke="#FEF08A" strokeWidth="3" />
+            <line x1="54" y1="44" x2="38" y2="36" stroke="#F59E0B" strokeWidth="3" />
+            <line x1="10" y1="44" x2="26" y2="36" stroke="#F59E0B" strokeWidth="3" />
+          </svg>
+          <span style={{ letterSpacing: '0.04em' }}>Qaiz · AI Commute Learning</span>
         </div>
         <div style={{ display: 'flex', gap: '8px' }}>
           <button
@@ -146,9 +153,9 @@ export function App() {
               setStats((prev) => ({ ...prev, soundEnabled: !prev.soundEnabled }));
             }}
             style={{
-              background: '#1E293B',
-              border: '1px solid #334155',
-              color: '#F8FAFC',
+              background: '#0F172A',
+              border: '1px solid #1E293B',
+              color: stats.soundEnabled ? '#F59E0B' : '#64748B',
               borderRadius: '8px',
               padding: '4px 8px',
               fontSize: '12px',
@@ -160,8 +167,8 @@ export function App() {
           <button
             onClick={() => setIsPhoneFrame(!isPhoneFrame)}
             style={{
-              background: '#1E293B',
-              border: '1px solid #334155',
+              background: '#0F172A',
+              border: '1px solid #1E293B',
               color: '#F8FAFC',
               borderRadius: '8px',
               padding: '4px 10px',
@@ -181,10 +188,10 @@ export function App() {
           maxWidth: isPhoneFrame ? '390px' : '640px',
           height: isPhoneFrame ? '820px' : '100vh',
           maxHeight: isPhoneFrame ? '92vh' : '100vh',
-          background: '#FFFFFF',
+          background: '#0B0F19',
           borderRadius: isPhoneFrame ? '36px' : '0',
-          border: isPhoneFrame ? '8px solid #1E293B' : 'none',
-          boxShadow: isPhoneFrame ? '0 25px 50px -12px rgba(0, 0, 0, 0.5)' : 'none',
+          border: isPhoneFrame ? '8px solid #141B2D' : 'none',
+          boxShadow: isPhoneFrame ? '0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px -10px rgba(245, 158, 11, 0.15)' : 'none',
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
@@ -201,7 +208,7 @@ export function App() {
               transform: 'translateX(-50%)',
               width: '12px',
               height: '12px',
-              background: '#0F172A',
+              background: '#06080E',
               borderRadius: '50%',
               zIndex: 50,
               pointerEvents: 'none'
@@ -209,12 +216,12 @@ export function App() {
           />
         )}
 
-        {/* Global Stats Header (Hidden inside active lesson) */}
+        {/* Global Stats Header (Cyber-Bento Obsidian with custom icons) */}
         {!activeUnit && (
           <header
             style={{
-              background: '#FFFFFF',
-              borderBottom: '2px solid #E2E8F0',
+              background: '#0B0F19',
+              borderBottom: '1px solid rgba(245, 158, 11, 0.2)',
               padding: '12px 14px',
               display: 'flex',
               justifyContent: 'space-around',
@@ -222,14 +229,23 @@ export function App() {
               zIndex: 20
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontWeight: 800, fontSize: '14px', color: '#EA580C' }}>
-              <span>🔥</span>
+            {/* Streak: Plasma Flame */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 700, fontSize: '13px', color: '#F59E0B', fontFamily: 'monospace' }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2.5">
+                <path d="M12 2c0 4-4 6-4 10a6 6 0 0 0 12 0c0-4-3-7-3-7s-1 2-2 2-2-3-3-5z" fill="rgba(245,158,11,0.25)" />
+              </svg>
               <span>{stats.streak}d</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontWeight: 800, fontSize: '14px', color: '#D97706' }}>
-              <span>⚡</span>
-              <span>{stats.xp}</span>
+
+            {/* XP: Voltage Bolt */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 700, fontSize: '13px', color: '#FDE047', fontFamily: 'monospace' }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FDE047" strokeWidth="2.5">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="rgba(253,224,71,0.25)" />
+              </svg>
+              <span>{stats.xp} XP</span>
             </div>
+
+            {/* Health: Cybernetic Heart Capsule */}
             <button
               onClick={() => {
                 sound.playTick();
@@ -240,17 +256,22 @@ export function App() {
                 border: 'none',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '5px',
-                fontWeight: 800,
-                fontSize: '14px',
-                color: '#EF4444',
+                gap: '6px',
+                fontWeight: 700,
+                fontSize: '13px',
+                color: '#FB7185',
+                fontFamily: 'monospace',
                 cursor: 'pointer'
               }}
             >
-              <span>❤️</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FB7185" strokeWidth="2.5">
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" fill="rgba(251,113,133,0.25)" />
+              </svg>
               <span>{stats.hearts}/{stats.maxHearts}</span>
             </button>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontWeight: 800, fontSize: '14px', color: '#3B82F6' }}>
+
+            {/* League */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontWeight: 700, fontSize: '12px', color: '#38BDF8', fontFamily: 'monospace' }}>
               <span>🏆</span>
               <span>{stats.league}</span>
             </div>
@@ -294,12 +315,12 @@ export function App() {
           )}
         </div>
 
-        {/* Bottom Tab Bar (Only when not in lesson) */}
+        {/* Bottom Tab Bar (Cyber-Bento Obsidian) */}
         {!activeUnit && (
           <nav
             style={{
-              background: '#FFFFFF',
-              borderTop: '2px solid #E2E8F0',
+              background: '#0B0F19',
+              borderTop: '1px solid rgba(245, 158, 11, 0.2)',
               display: 'flex',
               justifyContent: 'space-around',
               padding: '8px 0',
@@ -327,13 +348,13 @@ export function App() {
                     flexDirection: 'column',
                     alignItems: 'center',
                     gap: '2px',
-                    color: isActive ? '#2563EB' : '#94A3B8',
+                    color: isActive ? '#F59E0B' : '#64748B',
                     cursor: 'pointer',
                     padding: '4px 12px'
                   }}
                 >
                   <span style={{ fontSize: '18px' }}>{tab.icon}</span>
-                  <span style={{ fontSize: '11px', fontWeight: isActive ? 800 : 600 }}>{tab.label}</span>
+                  <span style={{ fontSize: '11px', fontWeight: isActive ? 800 : 500, fontFamily: 'monospace' }}>{tab.label}</span>
                 </button>
               );
             })}
