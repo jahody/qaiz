@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Qaiz is a mobile-first PWA that teaches AI concepts without code, Duolingo-style: 5 tracks and 13 short lessons built from interactive steps, with hearts, XP, streaks and leagues. It is a React 19 + TypeScript + Vite single-page app with no backend; all progress lives in `localStorage`. `README.md` lists the curriculum and game rules; keep it in sync when lessons or rules change.
+Qaiz is a mobile-first PWA that teaches AI concepts without code, Duolingo-style: 5 tracks and 13 short lessons built from interactive steps, with hearts, XP and streaks. It is a React 19 + TypeScript + Vite single-page app with no backend and no login; all progress lives in `localStorage`, per browser and device. The leaderboard and leagues were removed on purpose (there are no other users to rank against). `README.md` lists the curriculum and game rules; keep it in sync when lessons or rules change.
 
 ## Commands
 
@@ -28,12 +28,12 @@ Every push to `main` runs `.github/workflows/deploy.yml`, which builds on Node 2
 
 ## Architecture
 
-**State and navigation.** `src/App.tsx` owns all state. `UserStats` (`src/types.ts`) is persisted under the `localStorage` key `qaiz_user_progress_v2` and merged over the defaults on load, so a new field picks up its default without a key bump. There is no router: `activeUnit` (a lesson in progress) takes precedence, otherwise `currentTab` picks Learn / Practice / League / Settings.
+**State and navigation.** `src/App.tsx` owns all state. `UserStats` (`src/types.ts`) is persisted under the `localStorage` key `qaiz_user_progress_v2` and merged over the defaults on load, so a new field picks up its default without a key bump. Once a lesson has been completed, App calls `requestPersistentStorage()` so the browser doesn't evict that data under storage pressure. The site shares the `jahody.github.io` origin (and its storage) with the user's other GitHub Pages projects, so keep the key name unique. There is no router: `activeUnit` (a lesson in progress) takes precedence, otherwise `currentTab` picks Learn / Practice / Settings.
 
 **Game rules** live in `src/utils/progress.ts`, as pure functions App calls:
 - Hearts: 5 max, a wrong answer costs one, one comes back every 4 hours (`applyHeartRefill`; the clock starts when the first heart is lost). At 0 hearts lessons are blocked: the path and the lesson both send the learner to Practice.
 - Streak: local calendar days (`localDateKey`, not UTC). `streakAfterLesson` adds one for a lesson on the day after the last one and resets to 1 after a gap; `currentStreak` shows 0 once a day is missed.
-- XP and leagues: a lesson pays the `xpValue` of each correctly answered step plus the celebration step's bonus. A missed question is queued once more before the celebration ("second chance") and pays half XP if answered then. The league is derived from total XP (`LEAGUES`: Bronze 0, Silver 150, Gold 350, Diamond 700); it is not stored. One perfect pass through the current curriculum earns 670 XP, so Diamond takes some replays or practice. Rebalance `LEAGUES` (and the bots in `LeaderboardScreen`) when lessons are added.
+- XP: a lesson pays the `xpValue` of each correctly answered step plus the celebration step's bonus. A missed question is queued once more before the celebration ("second chance") and pays half XP if answered then. One perfect pass through the current curriculum earns 670 XP.
 - Practice (`src/utils/practice.ts`): 3 questions drawn from the binary / spot-the-flaw / trade-off steps of completed units (padded with starter questions). 2 of 3 right wins a heart, or +5 XP when hearts are full.
 
 **Curriculum is data.** `src/data/curriculumData.ts` exports `TRACKS: Track[]` → `Unit[]` → `ExerciseStep[]`, with each unit's steps in a `UNIT_..._STEPS` constant and the XP convention in a comment at the top. Every unit ends with a `celebration` step; the last unit of a track celebrates the whole track. Unit ids are stored in `completedLessons`, so never rename them; they don't follow display numbering (track 4 is `track-5` with units `unit-4-1`, `unit-5-1`, `unit-5-2`; track 5 is `track-6`). `LearningPath` unlocks the first uncompleted unit in track order, locks everything after it and shows per-track progress.
@@ -60,6 +60,6 @@ The curriculum makes factual claims (named studies, model sizes, dates). When ed
 
 ## Styling
 
-Styles are inline `style={{...}}` objects; there are no CSS modules or utility classes. `src/index.css` holds a reset, button press feedback, thin amber scrollbars and one keyframe. The brand ("Synapse Core" logo, "Solar Amber Cyber-Bento") uses dark obsidian chrome (`#0B0F19`) with amber `#F59E0B` / yellow `#FDE047` accents for the header, tab bar and learning path. Lesson, practice, league and settings screens use a light palette (white, slate, blue `#2563EB` actions, green/red feedback). Keep both halves when adding screens.
+Styles are inline `style={{...}}` objects; there are no CSS modules or utility classes. `src/index.css` holds a reset, button press feedback, thin amber scrollbars and one keyframe. The brand ("Synapse Core" logo, "Solar Amber Cyber-Bento") uses dark obsidian chrome (`#0B0F19`) with amber `#F59E0B` / yellow `#FDE047` accents for the header, tab bar and learning path. Lesson, practice and settings screens use a light palette (white, slate, blue `#2563EB` actions, green/red feedback). Keep both halves when adding screens.
 
 On screens 600px and wider the app opens in a "Pixel 8a" phone-frame preview with a top bar (toggle to responsive); on phones and when installed it fills the screen and hides that bar. The logo SVG is inlined in `App.tsx` and duplicated as `public/icon.svg` / `favicon.svg`.

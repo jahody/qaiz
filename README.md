@@ -1,8 +1,8 @@
 # Qaiz
 
-Bite-sized, zero-code AI lessons for your commute. Qaiz is a gamified PWA in the spirit of language-learning apps: short interactive lessons, hearts, XP, daily streaks and leagues. It teaches how modern AI works by intuition and play, not by code or formulas.
+Bite-sized, zero-code AI lessons for your commute. Qaiz is a gamified PWA in the spirit of language-learning apps: short interactive lessons, hearts, XP and daily streaks. It teaches how modern AI works by intuition and play, not by code or formulas.
 
-Everything runs in the browser. There is no backend or account; progress is saved in `localStorage`, and the app works offline once installed.
+Everything runs in the browser and the app works offline once installed.
 
 ## Curriculum
 
@@ -21,7 +21,8 @@ Lessons mix concept cards with interactive simulators, true/false calls, sliders
 - **Hearts:** 5 at most. A wrong answer costs one; one comes back every 4 hours, or win one in a Practice drill (2 of 3 right). At 0 hearts, lessons wait until you refill.
 - **XP:** earned for each correct answer, plus a completion bonus per lesson.
 - **Streak:** complete a lesson on consecutive days; miss a day and it resets.
-- **Leagues:** Bronze, Silver (150 XP), Gold (350 XP) and Diamond (700 XP), against a table of AI-pioneer bots.
+
+Progress is stored in the browser on each device; there is no account or sync. After your first completed lesson the app asks the browser to keep that data even when the device runs low on space.
 
 ## Development
 

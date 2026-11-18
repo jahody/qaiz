@@ -57,7 +57,7 @@ export const LearningPath: React.FC<LearningPathProps> = ({
             </div>
 
             {/* Winding Node Path */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '22px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '38px' }}>
               {track.units.map((unit, index) => {
                 const offsets = [0, -32, 32, 0];
                 const xOffset = offsets[index % offsets.length];

@@ -4,15 +4,14 @@ import type { UserStats, Unit } from './types';
 import { LearningPath } from './components/LearningPath';
 import { LessonEngine } from './components/LessonEngine';
 import { PracticeScreen, PRACTICE_XP_REWARD } from './components/PracticeScreen';
-import { LeaderboardScreen } from './components/LeaderboardScreen';
 import { SettingsModal } from './components/SettingsModal';
 import { sound } from './utils/sound';
 import {
   applyHeartRefill,
   currentStreak,
-  leagueFor,
   localDateKey,
   msUntilNextHeart,
+  requestPersistentStorage,
   streakAfterLesson
 } from './utils/progress';
 
@@ -45,7 +44,7 @@ export function App() {
   });
 
   const [activeUnit, setActiveUnit] = useState<Unit | null>(null);
-  const [currentTab, setCurrentTab] = useState<'path' | 'practice' | 'leaderboard' | 'settings'>('path');
+  const [currentTab, setCurrentTab] = useState<'path' | 'practice' | 'settings'>('path');
   const [isWide, setIsWide] = useState<boolean>(() => matches(WIDE_QUERY));
   // The phone-frame mockup is for previewing on a desktop; on a phone (or installed) the app fills the screen.
   const [isPhoneFrame, setIsPhoneFrame] = useState<boolean>(
@@ -74,6 +73,12 @@ export function App() {
       // ignore
     }
   }, [stats]);
+
+  // Once there is progress worth keeping, ask the browser not to evict it
+  const hasProgress = stats.completedLessons.length > 0;
+  useEffect(() => {
+    if (hasProgress) requestPersistentStorage();
+  }, [hasProgress]);
 
   // Heart refill (1 heart per 4 hours) and the clock for the refill countdown
   useEffect(() => {
@@ -140,7 +145,6 @@ export function App() {
 
   const showOuterBar = isPhoneFrame || isWide;
   const streak = currentStreak(stats);
-  const league = leagueFor(stats.xp);
 
   return (
     <div
@@ -309,19 +313,6 @@ export function App() {
               </svg>
               <span>{stats.hearts}/{stats.maxHearts}</span>
             </button>
-
-            {/* League */}
-            <button
-              onClick={() => {
-                sound.playTick();
-                setCurrentTab('leaderboard');
-              }}
-              title="League"
-              style={{ background: 'none', border: 'none', display: 'flex', alignItems: 'center', gap: '5px', fontWeight: 700, fontSize: '12px', color: '#38BDF8', fontFamily: 'monospace', cursor: 'pointer' }}
-            >
-              <span>🏆</span>
-              <span>{league}</span>
-            </button>
           </header>
         )}
 
@@ -355,8 +346,6 @@ export function App() {
               onReward={handlePracticeReward}
               onBackToPath={() => setCurrentTab('path')}
             />
-          ) : currentTab === 'leaderboard' ? (
-            <LeaderboardScreen userXp={stats.xp} />
           ) : (
             <SettingsModal
               soundEnabled={stats.soundEnabled}
@@ -384,7 +373,6 @@ export function App() {
             {[
               { id: 'path', label: 'Learn', icon: '🗺️' },
               { id: 'practice', label: 'Practice', icon: '🩺' },
-              { id: 'leaderboard', label: 'League', icon: '🏆' },
               { id: 'settings', label: 'Settings', icon: '⚙️' }
             ].map((tab) => {
               const isActive = currentTab === tab.id;

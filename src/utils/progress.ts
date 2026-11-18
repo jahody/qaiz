@@ -2,26 +2,6 @@ import type { UserStats } from '../types';
 
 export const HEART_REFILL_MS = 4 * 60 * 60 * 1000;
 
-/** XP needed to enter each league, lowest first. */
-export const LEAGUES = [
-  { name: 'Bronze', minXp: 0 },
-  { name: 'Silver', minXp: 150 },
-  { name: 'Gold', minXp: 350 },
-  { name: 'Diamond', minXp: 700 }
-] as const;
-
-export function leagueFor(xp: number): string {
-  let name: string = LEAGUES[0].name;
-  for (const league of LEAGUES) {
-    if (xp >= league.minXp) name = league.name;
-  }
-  return name;
-}
-
-export function nextLeague(xp: number): { name: string; minXp: number } | null {
-  return LEAGUES.find((league) => xp < league.minXp) ?? null;
-}
-
 /** Local calendar date as YYYY-MM-DD (streaks follow the user's day, not UTC). */
 export function localDateKey(date: Date = new Date()): string {
   const y = date.getFullYear();
@@ -69,6 +49,19 @@ export function applyHeartRefill(stats: UserStats, now: number = Date.now()): Us
 export function msUntilNextHeart(stats: UserStats, now: number = Date.now()): number | null {
   if (stats.hearts >= stats.maxHearts) return null;
   return Math.max(0, stats.lastHeartRefill + HEART_REFILL_MS - now);
+}
+
+/**
+ * Asks the browser to keep this origin's storage (and so the saved progress) when the device runs low
+ * on space. Chrome decides silently (installed and frequently used apps usually qualify); Firefox may
+ * ask the user once. Safe to call repeatedly.
+ */
+export function requestPersistentStorage(): void {
+  if (typeof navigator === 'undefined' || !navigator.storage?.persist) return;
+  navigator.storage
+    .persisted()
+    .then((already) => (already ? true : navigator.storage.persist()))
+    .catch(() => {});
 }
 
 export function formatDuration(ms: number): string {
