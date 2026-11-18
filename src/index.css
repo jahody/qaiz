@@ -17,6 +17,13 @@ body {
 button {
   font-family: inherit;
   transition: transform 0.08s ease, filter 0.08s ease;
+  touch-action: manipulation;
+}
+
+/* Thin amber scrollbars that sit well on both the dark path and the light lesson screens */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(245, 158, 11, 0.4) transparent;
 }
 
 button:active {

@@ -24,7 +24,9 @@ export const LearningPath: React.FC<LearningPathProps> = ({
     }
     if (nextAvailableUnit) break;
   }
+  const allDone = !nextAvailableUnit;
   if (!nextAvailableUnit) nextAvailableUnit = tracks[0].units[0];
+  const outOfHearts = stats.hearts <= 0;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#0B0F19' }}>
@@ -44,8 +46,11 @@ export const LearningPath: React.FC<LearningPathProps> = ({
                 boxShadow: '0 4px 20px -2px rgba(245, 158, 11, 0.1)'
               }}
             >
-              <div style={{ fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#F59E0B', fontFamily: 'monospace' }}>
-                COMMUTE SECTOR
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#F59E0B', fontFamily: 'monospace' }}>
+                <span>COMMUTE SECTOR</span>
+                <span style={{ color: '#FDE047' }}>
+                  {track.units.filter((u) => stats.completedLessons.includes(u.id)).length}/{track.units.length} CLEARED
+                </span>
               </div>
               <div style={{ fontSize: '17px', fontWeight: 800, margin: '2px 0', color: '#F8FAFC' }}>{track.title}</div>
               <div style={{ fontSize: '12px', color: '#94A3B8' }}>💡 {track.metaphor}</div>
@@ -186,8 +191,12 @@ export const LearningPath: React.FC<LearningPathProps> = ({
             fontFamily: 'monospace'
           }}
         >
-          <span>▶</span>
-          <span>LAUNCH: {nextAvailableUnit?.title || 'COMMUTE LESSON'}</span>
+          <span>{outOfHearts ? '💔' : '▶'}</span>
+          <span>
+            {outOfHearts
+              ? 'OUT OF HEARTS: PRACTICE'
+              : `${allDone ? 'REPLAY' : 'LAUNCH'}: ${nextAvailableUnit?.title || 'COMMUTE LESSON'}`}
+          </span>
         </button>
       </div>
     </div>

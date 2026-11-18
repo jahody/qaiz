@@ -1,21 +1,29 @@
 import React from 'react';
+import { leagueFor, nextLeague } from '../utils/progress';
 
 interface LeaderboardScreenProps {
   userXp: number;
-  league: string;
 }
 
-export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({ userXp, league }) => {
-  const leaderboard = [
-    { rank: 1, name: 'Ada Lovelace 👩‍💻', xp: 240, avatar: '🥇' },
-    { rank: 2, name: 'Alan Turing ⚙️', xp: 210, avatar: '🥈' },
-    { rank: 3, name: 'You (Adam) ⚡', xp: userXp, avatar: '🥉', isUser: true },
-    { rank: 4, name: 'Geoffrey H. 🧠', xp: 180, avatar: '4' },
-    { rank: 5, name: 'Claude Opus 🎭', xp: 140, avatar: '5' },
-    { rank: 6, name: 'Gemini Flash ⚡', xp: 120, avatar: '6' },
-    { rank: 7, name: 'Andrej K. 🚀', xp: 110, avatar: '7' },
-    { rank: 8, name: 'Yann L. 🌐', xp: 90, avatar: '8' }
-  ].sort((a, b) => b.xp - a.xp);
+// Fixed-XP rival bots; the app has no online multiplayer.
+const RIVALS = [
+  { name: 'Fei-Fei L. 🖼️', xp: 560 },
+  { name: 'Demis H. ♟️', xp: 410 },
+  { name: 'Ada Lovelace 👩‍💻', xp: 240 },
+  { name: 'Alan Turing ⚙️', xp: 210 },
+  { name: 'Geoffrey H. 🧠', xp: 180 },
+  { name: 'Claude Opus 🎭', xp: 140 },
+  { name: 'Gemini Flash ⚡', xp: 120 },
+  { name: 'Andrej K. 🚀', xp: 110 },
+  { name: 'Yann L. 🌐', xp: 90 }
+];
+
+export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({ userXp }) => {
+  const league = leagueFor(userXp);
+  const next = nextLeague(userXp);
+  const leaderboard = [...RIVALS.map((r) => ({ ...r, isUser: false })), { name: 'You ⚡', xp: userXp, isUser: true }].sort(
+    (a, b) => b.xp - a.xp || Number(b.isUser) - Number(a.isUser)
+  );
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#F8FAFC', padding: '16px' }}>
@@ -23,8 +31,11 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({ userXp, le
         <div style={{ fontSize: '32px' }}>🏆</div>
         <h2 style={{ fontSize: '18px', fontWeight: 900, color: '#0F172A' }}>{league} League</h2>
         <div style={{ fontSize: '12px', color: '#64748B', marginTop: '2px' }}>
-          Top 3 advance to Silver League at midnight Sunday!
+          {next
+            ? `${next.minXp - userXp} XP to go until ${next.name} League`
+            : 'Top league reached. Keep your streak alive!'}
         </div>
+        <div style={{ fontSize: '10px', color: '#94A3B8', marginTop: '2px' }}>Race the AI-pioneer bots</div>
       </div>
 
       <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -43,7 +54,7 @@ export const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({ userXp, le
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <span style={{ fontWeight: 800, fontSize: '14px', color: idx < 3 ? '#D97706' : '#94A3B8', width: '20px' }}>
+              <span style={{ fontWeight: 800, fontSize: '14px', color: idx < 3 ? '#D97706' : '#94A3B8', width: '24px' }}>
                 #{idx + 1}
               </span>
               <span style={{ fontWeight: item.isUser ? 800 : 600, fontSize: '14px', color: item.isUser ? '#1D4ED8' : '#1E293B' }}>
