@@ -22,7 +22,7 @@ Toolchain: TypeScript ~7.0, Vite 8, oxlint. `tsconfig.app.json` sets `verbatimMo
 
 ## Deployment
 
-Every push to `main` runs `.github/workflows/deploy.yml`, which builds on Node 20 and deploys `dist/` to GitHub Pages (repo `jahody/qaiz`). `vite.config.ts` sets `base: './'`, and `index.html`, the manifest and the service worker all use relative paths, so the app works under the `/qaiz/` Pages subpath. Keep new asset references relative.
+Every push to `main` runs `.github/workflows/deploy.yml`, which builds on Node 24 and deploys `dist/` to GitHub Pages (repo `jahody/qaiz`; Pages source is "GitHub Actions", and the `github-pages` environment allows `main`). The old `gh-pages` branch is no longer served. `vite.config.ts` sets `base: './'`, and `index.html`, the manifest and the service worker all use relative paths, so the app works under the `/qaiz/` Pages subpath. Keep new asset references relative.
 
 `public/sw.js` is registered from `src/main.tsx` in production builds only; in dev, `main.tsx` unregisters any leftover worker. Page navigations are network-first (a new deploy shows on the next load); other assets are cache-first with a background refresh. Bump `CACHE_NAME` when caching behavior changes.
 
