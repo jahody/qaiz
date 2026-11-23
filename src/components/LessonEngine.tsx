@@ -505,7 +505,6 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '14px', flex: 1 }}>
             <ConfettiCanvas />
             <div style={{ fontSize: '50px', margin: '-30px 0 0' }}>🏆</div>
-            <div style={{ fontSize: '22px', fontWeight: 900, color: '#16A34A' }}>Commute Lesson Cleared!</div>
             <div style={{ fontSize: '14px', color: '#475569', lineHeight: '1.4', whiteSpace: 'pre-line' }}>
               {renderRichText(step.narrative ?? '')}
             </div>
@@ -517,7 +516,7 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
               </div>
               <div style={{ background: '#FFEDD5', padding: '10px 18px', borderRadius: '14px', border: '1px solid #FDBA74' }}>
                 <div style={{ fontSize: '18px', fontWeight: 900, color: '#EA580C' }}>Day {streakAfter} 🔥</div>
-                <div style={{ fontSize: '10px', color: '#C2410C', fontWeight: 700 }}>Streak Active</div>
+                <div style={{ fontSize: '10px', color: '#C2410C', fontWeight: 700 }}>Streak</div>
               </div>
             </div>
           </div>

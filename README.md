@@ -8,11 +8,13 @@ Everything runs in the browser and the app works offline once installed.
 
 | Track | Lessons |
 | --- | --- |
-| 1. Thinking in Odds | The Bayesian Mindset · Distributions & Spread · Risk & Confidence |
-| 2. Fueling the Machine | Garbage In, Garbage Out · Turning Worlds to Numbers (embeddings) |
-| 3. The Neural Engine | The Bouncer (single neuron) · The Assembly Line (layers, gradient descent) · Memorize vs. Understand (overfitting) |
-| 4. Frontier Architectures | Next-Token Prediction · The Attention Revolution · Mixture of Experts |
-| 5. Agents & Grounding | The ReAct Loop · Hallucinations & RAG |
+| 1. Probability & Statistics | Bayes' Rule · Averages & Outliers · Precision & Recall |
+| 2. Data & Embeddings | Biased Data · Embeddings |
+| 3. Neural Networks | The Artificial Neuron · Layers & Gradient Descent · Overfitting |
+| 4. Large Language Models | Next-Token Prediction · Attention & Transformers · Mixture of Experts |
+| 5. Agents & RAG | Agents & Tool Use · Hallucinations & RAG |
+
+Each track has its own color on the learning path. Tracks can be taken in any order; the lessons inside a track unlock one after another.
 
 Lessons mix concept cards with interactive simulators, true/false calls, sliders, spot-the-flaw puzzles, trade-off choices and matching pairs. Missed questions come back at the end of the lesson for a second try at half XP.
 
@@ -22,7 +24,19 @@ Lessons mix concept cards with interactive simulators, true/false calls, sliders
 - **XP:** earned for each correct answer, plus a completion bonus per lesson.
 - **Streak:** complete a lesson on consecutive days; miss a day and it resets.
 
-Progress is stored in the browser on each device; there is no account or sync. After your first completed lesson the app asks the browser to keep that data even when the device runs low on space.
+Progress is stored in the browser on each device. After your first completed lesson the app asks the browser to keep that data even when the device runs low on space. Optionally, sign in with Google (Settings) to keep lessons, XP, streak and hearts in sync across devices; sound and vibration settings stay per device.
+
+## Google sign-in setup
+
+Sign-in uses Firebase Authentication and stores one small Firestore document per user, in the Firebase project `qaiz-4d1d9` (free Spark plan, Firestore in `eur3`). Its web config is in `src/firebaseConfig.ts`; with an empty `apiKey` the sign-in card is hidden and the app works offline-only. After editing `firestore.rules`, deploy it with `npx firebase-tools deploy --only firestore:rules` (uses `firebase.json` and `.firebaserc`; run `npx firebase-tools login` once first).
+
+To set up a new project from scratch:
+
+1. In the [Firebase console](https://console.firebase.google.com), add a project (Google Analytics is not needed).
+2. Project settings → General → Your apps → add a **Web** app (no Firebase Hosting). Copy `apiKey`, `authDomain`, `projectId` and `appId` into `src/firebaseConfig.ts`. These values are public by design; the Firestore rules are what protect the data.
+3. Build → Authentication → Get started → Sign-in method → enable **Google**.
+4. Authentication → Settings → Authorized domains → add `jahody.github.io` (`localhost` is listed by default).
+5. Build → Firestore Database → Create database (production mode, any location). On its Rules tab, paste `firestore.rules` and publish.
 
 ## Development
 

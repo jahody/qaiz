@@ -71,7 +71,8 @@ export interface Unit {
 export interface Track {
   id: string;
   title: string;
-  metaphor: string;
+  /** Accent color (hex) for the track's banner and path nodes; must read well on the dark path. */
+  color: string;
   units: Unit[];
 }
 
@@ -84,7 +85,13 @@ export interface UserStats {
   /** Local date (YYYY-MM-DD) of the last completed lesson; '' if none yet. */
   lastStreakDate: string;
   xp: number;
+  /** In completion order, so the last entry is the most recently completed lesson. */
   completedLessons: string[];
+  /** When a lesson, practice drill or lost heart last changed the progress (ms; 0 = never). Decides cloud merges. */
+  updatedAt: number;
+  /** When progress was last reset (ms; 0 = never). On sync, the side with the newer reset wins outright. */
+  resetAt: number;
+  /** Device preferences: not synced to the cloud. */
   soundEnabled: boolean;
   hapticsEnabled: boolean;
 }

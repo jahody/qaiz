@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { TRACKS } from './data/curriculumData';
 import type { UserStats, Unit } from './types';
 import { LearningPath } from './components/LearningPath';
@@ -14,9 +14,22 @@ import {
   requestPersistentStorage,
   streakAfterLesson
 } from './utils/progress';
+import { cloudEnabled } from './firebaseConfig';
+import {
+  describeCloudError,
+  signInWithGoogle,
+  signOutOfGoogle,
+  syncProgress,
+  watchUser,
+  type CloudSyncState,
+  type CloudUser
+} from './utils/cloud';
+import { mergeProgress, syncedPart } from './utils/sync';
 
 const STORAGE_KEY = 'qaiz_user_progress_v2';
 const WIDE_QUERY = '(min-width: 600px)';
+/** Wait this long after the last change before writing to the cloud (a lesson changes hearts quickly). */
+const SYNC_DEBOUNCE_MS = 2000;
 
 const createDefaultStats = (): UserStats => ({
   hearts: 5,
@@ -26,6 +39,8 @@ const createDefaultStats = (): UserStats => ({
   lastStreakDate: '',
   xp: 0,
   completedLessons: [],
+  updatedAt: 0,
+  resetAt: 0,
   soundEnabled: true,
   hapticsEnabled: true
 });
@@ -90,20 +105,121 @@ export function App() {
     return () => clearInterval(interval);
   }, []);
 
+  // Google sign-in and cloud sync (only when firebaseConfig is filled in)
+  const [cloudUser, setCloudUser] = useState<CloudUser | null>(null);
+  const [authReady, setAuthReady] = useState(false);
+  const [syncState, setSyncState] = useState<CloudSyncState>({ status: 'idle' });
+  const statsRef = useRef(stats);
+  const lastSyncedKey = useRef('');
+  const syncRunning = useRef(false);
+  const syncAgain = useRef(false);
+  const uid = cloudUser?.uid ?? null;
+
+  useEffect(() => {
+    statsRef.current = stats;
+  }, [stats]);
+
+  useEffect(() => {
+    if (!cloudEnabled) return;
+    let unsubscribe = () => {};
+    let cancelled = false;
+    watchUser((user) => {
+      setCloudUser(user);
+      setAuthReady(true);
+    })
+      .then((stop) => (cancelled ? stop() : (unsubscribe = stop)))
+      .catch((e) => {
+        console.warn('Firebase failed to load', e);
+        setAuthReady(true);
+      });
+    return () => {
+      cancelled = true;
+      unsubscribe();
+    };
+  }, []);
+
+  /** Merges this device's progress with the cloud copy and stores the result on both sides. */
+  const syncNow = useCallback(async () => {
+    if (!uid) return;
+    if (syncRunning.current) {
+      syncAgain.current = true;
+      return;
+    }
+    syncRunning.current = true;
+    // A sync requested while one is running runs once more afterwards.
+    do {
+      syncAgain.current = false;
+      setSyncState((s) => ({ ...s, status: 'syncing' }));
+      try {
+        const local = syncedPart(statsRef.current);
+        const merged = await syncProgress(uid, (cloud) => (cloud ? mergeProgress(local, cloud) : local));
+        lastSyncedKey.current = JSON.stringify(merged);
+        // Progress made while the request was in flight is merged in again, not overwritten.
+        setStats((prev) => applyHeartRefill({ ...prev, ...mergeProgress(syncedPart(prev), merged) }));
+        setSyncState({ status: 'synced', at: Date.now() });
+      } catch (e) {
+        console.warn('Sync failed', e);
+        setSyncState({ status: 'error', message: describeCloudError(e) });
+      }
+    } while (syncAgain.current);
+    syncRunning.current = false;
+  }, [uid]);
+
+  // Sync on sign-in (immediately) and after every progress change (debounced)
+  const progressKey = uid ? JSON.stringify(syncedPart(stats)) : '';
+  useEffect(() => {
+    if (!uid || progressKey === lastSyncedKey.current) return;
+    const timer = setTimeout(() => void syncNow(), lastSyncedKey.current ? SYNC_DEBOUNCE_MS : 0);
+    return () => clearTimeout(timer);
+  }, [uid, progressKey, syncNow]);
+
+  // Pick up progress from other devices when the app comes back to the foreground or back online
+  useEffect(() => {
+    if (!uid) return;
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') void syncNow();
+    };
+    const onOnline = () => void syncNow();
+    document.addEventListener('visibilitychange', onVisible);
+    window.addEventListener('online', onOnline);
+    return () => {
+      document.removeEventListener('visibilitychange', onVisible);
+      window.removeEventListener('online', onOnline);
+    };
+  }, [uid, syncNow]);
+
+  const handleSignIn = async () => {
+    setSyncState({ status: 'idle' });
+    try {
+      await signInWithGoogle();
+    } catch (e) {
+      console.warn('Sign-in failed', e);
+      setSyncState({ status: 'error', message: describeCloudError(e) });
+    }
+  };
+
+  const handleSignOut = async () => {
+    // Progress stays on this device; it merges back in on the next sign-in.
+    await signOutOfGoogle();
+    lastSyncedKey.current = '';
+    setSyncState({ status: 'idle' });
+  };
+
   const handleDeductHeart = () => {
     setStats((prev) => ({
       ...prev,
       hearts: Math.max(0, prev.hearts - 1),
       // The refill clock starts when the first heart is lost
-      lastHeartRefill: prev.hearts >= prev.maxHearts ? Date.now() : prev.lastHeartRefill
+      lastHeartRefill: prev.hearts >= prev.maxHearts ? Date.now() : prev.lastHeartRefill,
+      updatedAt: Date.now()
     }));
   };
 
   const handlePracticeReward = (kind: 'heart' | 'xp') => {
     setStats((prev) =>
       kind === 'heart'
-        ? { ...prev, hearts: Math.min(prev.maxHearts, prev.hearts + 1) }
-        : { ...prev, xp: prev.xp + PRACTICE_XP_REWARD }
+        ? { ...prev, hearts: Math.min(prev.maxHearts, prev.hearts + 1), updatedAt: Date.now() }
+        : { ...prev, xp: prev.xp + PRACTICE_XP_REWARD, updatedAt: Date.now() }
     );
   };
 
@@ -126,7 +242,8 @@ export function App() {
       lastStreakDate: localDateKey(),
       completedLessons: prev.completedLessons.includes(unitId)
         ? prev.completedLessons
-        : [...prev.completedLessons, unitId]
+        : [...prev.completedLessons, unitId],
+      updatedAt: Date.now()
     }));
 
     setActiveUnit(null);
@@ -138,8 +255,9 @@ export function App() {
   };
 
   const handleResetProgress = () => {
-    setStats(createDefaultStats());
-    localStorage.removeItem(STORAGE_KEY);
+    // Signed in, a new resetAt makes the reset win the next merge, clearing the cloud copy and other
+    // devices too. Signed out, only this device is reset; the cloud copy merges back on sign-in.
+    setStats((prev) => ({ ...createDefaultStats(), resetAt: uid ? Date.now() : prev.resetAt }));
     setCurrentTab('path');
   };
 
@@ -183,7 +301,7 @@ export function App() {
               <line x1="54" y1="44" x2="38" y2="36" stroke="#F59E0B" strokeWidth="3" />
               <line x1="10" y1="44" x2="26" y2="36" stroke="#F59E0B" strokeWidth="3" />
             </svg>
-            <span style={{ letterSpacing: '0.04em' }}>Qaiz · AI Commute Learning</span>
+            <span style={{ letterSpacing: '0.04em' }}>Qaiz</span>
           </div>
           <div style={{ display: 'flex', gap: '8px' }}>
             <button
@@ -350,6 +468,11 @@ export function App() {
             <SettingsModal
               soundEnabled={stats.soundEnabled}
               hapticsEnabled={stats.hapticsEnabled}
+              account={
+                cloudEnabled
+                  ? { user: cloudUser, authReady, syncState, onSignIn: handleSignIn, onSignOut: handleSignOut }
+                  : null
+              }
               onToggleSound={() => setStats((p) => ({ ...p, soundEnabled: !p.soundEnabled }))}
               onToggleHaptics={() => setStats((p) => ({ ...p, hapticsEnabled: !p.hapticsEnabled }))}
               onResetProgress={handleResetProgress}

@@ -81,7 +81,7 @@ export const PracticeScreen: React.FC<PracticeScreenProps> = ({
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#F8FAFC', padding: '16px', overflowY: 'auto' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
-        <h2 style={{ fontSize: '18px', fontWeight: 800, color: '#0F172A' }}>🩺 Heart Clinic & Review</h2>
+        <h2 style={{ fontSize: '18px', fontWeight: 800, color: '#0F172A' }}>Practice</h2>
         <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 800, color: '#EF4444' }}>
           <span>❤️</span>
           <span>{hearts}/{maxHearts}</span>

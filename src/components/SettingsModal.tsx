@@ -1,9 +1,12 @@
 import React from 'react';
 import { sound } from '../utils/sound';
+import { AccountCard, type AccountCardProps } from './AccountCard';
 
 interface SettingsModalProps {
   soundEnabled: boolean;
   hapticsEnabled: boolean;
+  /** Google sign-in; null while Firebase isn't configured. */
+  account: AccountCardProps | null;
   onToggleSound: () => void;
   onToggleHaptics: () => void;
   onResetProgress: () => void;
@@ -13,15 +16,17 @@ interface SettingsModalProps {
 export const SettingsModal: React.FC<SettingsModalProps> = ({
   soundEnabled,
   hapticsEnabled,
+  account,
   onToggleSound,
   onToggleHaptics,
   onResetProgress,
   onClose
 }) => {
+  const signedIn = !!account?.user;
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#F8FAFC', padding: '16px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#F8FAFC', padding: '16px', overflowY: 'auto' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-        <h2 style={{ fontSize: '18px', fontWeight: 900, color: '#0F172A' }}>⚙️ App Preferences</h2>
+        <h2 style={{ fontSize: '18px', fontWeight: 900, color: '#0F172A' }}>Settings</h2>
         <button
           onClick={onClose}
           style={{ background: 'none', border: 'none', fontSize: '18px', cursor: 'pointer', color: '#64748B' }}
@@ -31,6 +36,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', flex: 1 }}>
+        {account && <AccountCard {...account} />}
+
         {/* Sound toggle */}
         <div style={{ padding: '14px', background: '#FFFFFF', borderRadius: '16px', border: '1px solid #E2E8F0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
@@ -83,7 +90,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         {/* PWA Info */}
         <div style={{ padding: '16px', background: '#EFF6FF', borderRadius: '16px', border: '1px solid #BFDBFE' }}>
           <div style={{ fontWeight: 800, fontSize: '13px', color: '#1E40AF', marginBottom: '4px' }}>
-            📱 Install as App on Pixel 8a
+            📱 Install as an app
           </div>
           <div style={{ fontSize: '12px', color: '#3B82F6', lineHeight: '1.4' }}>
             Open this web page in Chrome on your phone, tap the <strong>⋮ menu</strong>, then select <strong>"Add to Home screen"</strong> or <strong>"Install app"</strong>. It will run full-screen offline!
@@ -94,7 +101,10 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         <div style={{ marginTop: 'auto', paddingTop: '16px' }}>
           <button
             onClick={() => {
-              if (window.confirm('Reset all progress, streaks, and XP back to start?')) {
+              const question = signedIn
+                ? 'Reset all progress, streaks and XP, on this device and in your Google account?'
+                : 'Reset all progress, streaks and XP on this device?';
+              if (window.confirm(question)) {
                 onResetProgress();
               }
             }}

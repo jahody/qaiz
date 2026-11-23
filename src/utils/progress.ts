@@ -1,4 +1,4 @@
-import type { UserStats } from '../types';
+import type { Track, Unit, UserStats } from '../types';
 
 export const HEART_REFILL_MS = 4 * 60 * 60 * 1000;
 
@@ -62,6 +62,34 @@ export function requestPersistentStorage(): void {
     .persisted()
     .then((already) => (already ? true : navigator.storage.persist()))
     .catch(() => {});
+}
+
+/**
+ * Units a learner can start: the first uncompleted unit of every track. Tracks can be taken in any
+ * order, lessons within a track one after another.
+ */
+export function openUnitIds(tracks: Track[], completed: string[]): Set<string> {
+  const open = new Set<string>();
+  for (const track of tracks) {
+    const next = track.units.find((u) => !completed.includes(u.id));
+    if (next) open.add(next.id);
+  }
+  return open;
+}
+
+/**
+ * The lesson the path suggests next: the next one in the track of the most recently completed lesson
+ * (`completed` is in completion order), else the first unfinished one in curriculum order.
+ * null once every lesson is done.
+ */
+export function suggestedUnit(tracks: Track[], completed: string[]): { unit: Unit; track: Track } | null {
+  const lastId = completed[completed.length - 1];
+  const lastTrack = tracks.find((t) => t.units.some((u) => u.id === lastId));
+  for (const track of lastTrack ? [lastTrack, ...tracks] : tracks) {
+    const unit = track.units.find((u) => !completed.includes(u.id));
+    if (unit) return { unit, track };
+  }
+  return null;
 }
 
 export function formatDuration(ms: number): string {

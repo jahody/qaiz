@@ -120,8 +120,8 @@ const UNIT_1_1_STEPS: ExerciseStep[] = [
   {
     id: '1-1-10',
     type: 'celebration',
-    title: 'Lesson 1.1 Complete!',
-    narrative: `You've got the Bayesian Mindset!\n\nKey takeaway: never judge a test or an AI prediction without asking "How rare was this before the evidence?"`,
+    title: 'Lesson Complete!',
+    narrative: `Key takeaway: never judge a test or an AI prediction without asking "How rare was this before the evidence?"`,
     explanation: 'Lesson complete.',
     xpValue: 10
   }
@@ -199,8 +199,8 @@ const UNIT_1_2_STEPS: ExerciseStep[] = [
   {
     id: '1-2-6',
     type: 'celebration',
-    title: 'Lesson 1.2 Complete!',
-    narrative: `You've conquered Distributions & Spread!\n\nWhen someone quotes an average, ask what the spread looks like and whether outliers are hiding in it.`,
+    title: 'Lesson Complete!',
+    narrative: `When someone quotes an average, ask what the spread looks like and whether outliers are hiding in it.`,
     explanation: 'Lesson complete.',
     xpValue: 10
   }
@@ -253,8 +253,8 @@ const UNIT_1_3_STEPS: ExerciseStep[] = [
   {
     id: '1-3-5',
     type: 'celebration',
-    title: 'Track 1 Mastered!',
-    narrative: `You've completed Track 1: Thinking in Odds!\n\nYou now have the statistical intuition behind how AI systems make decisions under uncertainty.`,
+    title: 'Track 1 Complete!',
+    narrative: `You've completed Track 1: Probability & Statistics!\n\nYou now have the statistical intuition behind how AI systems make decisions under uncertainty.`,
     explanation: 'Track complete.',
     xpValue: 10
   }
@@ -311,7 +311,7 @@ const UNIT_2_1_STEPS: ExerciseStep[] = [
   {
     id: '2-1-5',
     type: 'celebration',
-    title: 'Data Detective Cleared!',
+    title: 'Lesson Complete!',
     narrative: `You can now spot skewed data before it turns into a skewed model.\n\nAlways ask: who or what is missing from this dataset?`,
     explanation: 'Lesson complete.',
     xpValue: 10
@@ -354,8 +354,8 @@ const UNIT_2_2_STEPS: ExerciseStep[] = [
   {
     id: '2-2-4',
     type: 'celebration',
-    title: 'Track 2 Mastered!',
-    narrative: `You've completed Track 2: Fueling the Machine!\n\nYou know why data quality decides model quality, and how embeddings turn meaning into numbers a network can use.`,
+    title: 'Track 2 Complete!',
+    narrative: `You've completed Track 2: Data & Embeddings!\n\nYou know why data quality decides model quality, and how embeddings turn meaning into numbers a network can use.`,
     explanation: 'Track complete.',
     xpValue: 10
   }
@@ -404,7 +404,7 @@ const UNIT_3_1_STEPS: ExerciseStep[] = [
   {
     id: '3-1-4',
     type: 'celebration',
-    title: 'Neuron Bouncer Cleared!',
+    title: 'Lesson Complete!',
     narrative: `You understand the basic building block of deep neural networks: weighted inputs, a bias, and an activation.`,
     explanation: 'Lesson complete.',
     xpValue: 10
@@ -477,7 +477,7 @@ const UNIT_3_2_STEPS: ExerciseStep[] = [
   {
     id: '3-2-6',
     type: 'celebration',
-    title: 'Assembly Line Cleared!',
+    title: 'Lesson Complete!',
     narrative: `You understand how stacked layers learn: a loss, a gradient, and many small steps downhill.`,
     explanation: 'Lesson complete.',
     xpValue: 10
@@ -554,8 +554,8 @@ const UNIT_3_3_STEPS: ExerciseStep[] = [
   {
     id: '3-3-6',
     type: 'celebration',
-    title: 'Track 3 Mastered!',
-    narrative: `You've completed Track 3: The Neural Engine!\n\nNeurons, layers, gradient descent and overfitting: you know how networks learn, and how they fool themselves.`,
+    title: 'Track 3 Complete!',
+    narrative: `You've completed Track 3: Neural Networks!\n\nNeurons, layers, gradient descent and overfitting: you know how networks learn, and how they fool themselves.`,
     explanation: 'Track complete.',
     xpValue: 10
   }
@@ -615,7 +615,7 @@ const UNIT_4_TOKENS_STEPS: ExerciseStep[] = [
   {
     id: '4-1-6',
     type: 'celebration',
-    title: 'Token Predictor Cleared!',
+    title: 'Lesson Complete!',
     narrative: `You know what an LLM actually does: predict the next token, again and again, with temperature deciding how adventurous each pick is.`,
     explanation: 'Lesson complete.',
     xpValue: 10
@@ -657,7 +657,7 @@ const UNIT_4_ATTENTION_STEPS: ExerciseStep[] = [
   {
     id: '5-1-4',
     type: 'celebration',
-    title: 'Attention Mastered!',
+    title: 'Lesson Complete!',
     narrative: `You now know the core mechanism inside the Transformers behind ChatGPT, Claude and Gemini.`,
     explanation: 'Lesson complete.',
     xpValue: 10
@@ -700,8 +700,8 @@ const UNIT_4_MOE_STEPS: ExerciseStep[] = [
   {
     id: '5-2-4',
     type: 'celebration',
-    title: 'Track 4 Mastered!',
-    narrative: `You've completed Track 4: Frontier Architectures!\n\nTokens, attention and sparse experts: you understand the machinery behind today's largest language models, including open-weight ones like DeepSeek-V3 and Qwen3.`,
+    title: 'Track 4 Complete!',
+    narrative: `You've completed Track 4: Large Language Models!\n\nTokens, attention and sparse experts: you understand the machinery behind today's largest language models, including open-weight ones like DeepSeek-V3 and Qwen3.`,
     explanation: 'Track complete.',
     xpValue: 10
   }
@@ -743,7 +743,7 @@ const UNIT_5_1_STEPS: ExerciseStep[] = [
   {
     id: '6-1-4',
     type: 'celebration',
-    title: 'Agentic Thinking Cleared!',
+    title: 'Lesson Complete!',
     narrative: `You understand how agents use tools inside a harness to act in the digital world.`,
     explanation: 'Lesson complete.',
     xpValue: 10
@@ -808,8 +808,8 @@ const UNIT_5_2_STEPS: ExerciseStep[] = [
   {
     id: '6-2-6',
     type: 'celebration',
-    title: 'Curriculum Complete!',
-    narrative: `You've completed Track 5 and the whole Qaiz curriculum!\n\nFrom Bayes to agents, you can now reason about how AI systems work, where they fail, and which questions to ask. Replay any lesson or run practice drills to keep your streak alive.`,
+    title: 'Track 5 Complete!',
+    narrative: `You've completed Track 5: Agents & RAG!\n\nYou know how agents think, act and observe in a loop, and how grounding answers in real documents keeps them from making things up. Replay any lesson or run practice drills to keep your streak alive.`,
     explanation: 'Track complete.',
     xpValue: 10
   }
@@ -821,27 +821,27 @@ const UNIT_5_2_STEPS: ExerciseStep[] = [
 export const TRACKS: Track[] = [
   {
     id: 'track-1',
-    title: 'Track 1: Thinking in Odds',
-    metaphor: 'Betting chips on weather forecasts',
+    title: 'Track 1: Probability & Statistics',
+    color: '#F59E0B',
     units: [
       {
         id: 'unit-1-1',
-        title: 'The Bayesian Mindset',
-        subtitle: 'Updating beliefs with clues & priors',
+        title: "Bayes' Rule",
+        subtitle: 'Base rates, priors & false positives',
         icon: '⚖️',
         steps: UNIT_1_1_STEPS
       },
       {
         id: 'unit-1-2',
-        title: 'Distributions & Spread',
-        subtitle: 'Outliers & why averages lie',
+        title: 'Averages & Outliers',
+        subtitle: 'Mean vs. median & variance',
         icon: '📊',
         steps: UNIT_1_2_STEPS
       },
       {
         id: 'unit-1-3',
-        title: 'Risk & Confidence',
-        subtitle: 'Precision vs recall trade-offs',
+        title: 'Precision & Recall',
+        subtitle: 'Alarm thresholds & why accuracy misleads',
         icon: '🎯',
         steps: UNIT_1_3_STEPS
       }
@@ -849,20 +849,20 @@ export const TRACKS: Track[] = [
   },
   {
     id: 'track-2',
-    title: 'Track 2: Fueling the Machine',
-    metaphor: 'Refining crude oil into rocket fuel',
+    title: 'Track 2: Data & Embeddings',
+    color: '#34D399',
     units: [
       {
         id: 'unit-2-1',
-        title: 'Garbage In, Garbage Out',
-        subtitle: 'Selection bias & dirty datasets',
+        title: 'Biased Data',
+        subtitle: 'Selection & survivorship bias, proxy variables',
         icon: '🛢️',
         steps: UNIT_2_1_STEPS
       },
       {
         id: 'unit-2-2',
-        title: 'Turning Worlds to Numbers',
-        subtitle: 'Embeddings & semantic maps',
+        title: 'Embeddings',
+        subtitle: 'Words as vectors & semantic search',
         icon: '🗺️',
         steps: UNIT_2_2_STEPS
       }
@@ -870,27 +870,27 @@ export const TRACKS: Track[] = [
   },
   {
     id: 'track-3',
-    title: 'Track 3: The Neural Engine',
-    metaphor: 'The club bouncer and assembly line',
+    title: 'Track 3: Neural Networks',
+    color: '#38BDF8',
     units: [
       {
         id: 'unit-3-1',
-        title: 'The Bouncer (Single Neuron)',
-        subtitle: 'Weights as dials, bias as the bar',
+        title: 'The Artificial Neuron',
+        subtitle: 'Weights, bias & activation',
         icon: '🧠',
         steps: UNIT_3_1_STEPS
       },
       {
         id: 'unit-3-2',
-        title: 'The Assembly Line',
-        subtitle: 'Layers & gradient descent',
+        title: 'Layers & Gradient Descent',
+        subtitle: 'Loss, gradients & learning rate',
         icon: '🏭',
         steps: UNIT_3_2_STEPS
       },
       {
         id: 'unit-3-3',
-        title: 'Memorize vs. Understand',
-        subtitle: 'Overfitting & the test set',
+        title: 'Overfitting',
+        subtitle: 'Training, validation & test sets',
         icon: '🎓',
         steps: UNIT_3_3_STEPS
       }
@@ -898,8 +898,8 @@ export const TRACKS: Track[] = [
   },
   {
     id: 'track-5',
-    title: 'Track 4: Frontier Architectures',
-    metaphor: 'From walkie-talkies to global town hall',
+    title: 'Track 4: Large Language Models',
+    color: '#A78BFA',
     units: [
       {
         id: 'unit-4-1',
@@ -910,15 +910,15 @@ export const TRACKS: Track[] = [
       },
       {
         id: 'unit-5-1',
-        title: 'The Attention Revolution',
-        subtitle: 'How Transformers connect words',
+        title: 'Attention & Transformers',
+        subtitle: 'Why Transformers replaced RNNs, causal attention',
         icon: '🔍',
         steps: UNIT_4_ATTENTION_STEPS
       },
       {
         id: 'unit-5-2',
         title: 'Mixture of Experts',
-        subtitle: 'Only a few experts work on each token',
+        subtitle: 'Active vs. total parameters',
         icon: '🧩',
         steps: UNIT_4_MOE_STEPS
       }
@@ -926,20 +926,20 @@ export const TRACKS: Track[] = [
   },
   {
     id: 'track-6',
-    title: 'Track 5: Agents & Grounding',
-    metaphor: 'Autonomous task force with case board',
+    title: 'Track 5: Agents & RAG',
+    color: '#F472B6',
     units: [
       {
         id: 'unit-6-1',
-        title: 'The ReAct Loop',
-        subtitle: 'Think → Act → Observe, repeat',
+        title: 'Agents & Tool Use',
+        subtitle: 'The ReAct loop & guardrails',
         icon: '🤖',
         steps: UNIT_5_1_STEPS
       },
       {
         id: 'unit-6-2',
         title: 'Hallucinations & RAG',
-        subtitle: 'Grounding answers in real documents',
+        subtitle: 'Retrieval, grounding & citations',
         icon: '📚',
         steps: UNIT_5_2_STEPS
       }
