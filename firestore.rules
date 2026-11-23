@@ -3,6 +3,7 @@ rules_version = '2';
 // Paste into Firebase console → Firestore Database → Rules, then Publish.
 // Each signed-in user can read and write only their own progress document, users/{uid},
 // and only with the fields the app syncs (see SyncedProgress in src/utils/sync.ts).
+// The leaderboard collection is readable by any signed-in user but writable only by the owner.
 service cloud.firestore {
   match /databases/{database}/documents {
     match /users/{uid} {
@@ -12,6 +13,15 @@ service cloud.firestore {
           ['hearts', 'lastHeartRefill', 'streak', 'lastStreakDate', 'xp', 'completedLessons', 'updatedAt', 'resetAt'])
         && request.resource.data.completedLessons is list
         && request.resource.data.completedLessons.size() <= 500;
+    }
+    match /leaderboard/{uid} {
+      allow read: if request.auth != null;
+      allow create, update: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(
+          ['name', 'photoURL', 'xp', 'streak', 'lessonsCompleted', 'updatedAt'])
+        && request.resource.data.xp is number
+        && request.resource.data.streak is number
+        && request.resource.data.lessonsCompleted is number;
     }
   }
 }

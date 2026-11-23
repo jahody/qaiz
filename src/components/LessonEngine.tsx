@@ -34,7 +34,7 @@ function formatSliderValue(step: ExerciseStep, value: number): string {
 function renderRichText(text: string): React.ReactNode[] {
   return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
     part.startsWith('**') && part.endsWith('**') ? (
-      <strong key={i} style={{ color: '#0F172A' }}>
+      <strong key={i} style={{ color: '#FDE047' }}>
         {part.slice(2, -2)}
       </strong>
     ) : (
@@ -217,25 +217,25 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
   };
 
   const optionStyle = (isSelected: boolean, isOptCorrect: boolean): React.CSSProperties => {
-    if (isAnswerChecked && isOptCorrect) return { border: '2px solid #22C55E', background: '#F0FDF4' };
-    if (isAnswerChecked && isSelected) return { border: '2px solid #EF4444', background: '#FEF2F2' };
-    if (isSelected) return { border: '2px solid #3B82F6', background: '#EFF6FF' };
-    return { border: '1px solid #CBD5E1', background: '#FFFFFF' };
+    if (isAnswerChecked && isOptCorrect) return { border: '2px solid #22C55E', background: 'rgba(34, 197, 94, 0.12)' };
+    if (isAnswerChecked && isSelected) return { border: '2px solid #EF4444', background: 'rgba(239, 68, 68, 0.12)' };
+    if (isSelected) return { border: '2px solid #F59E0B', background: 'rgba(245, 158, 11, 0.1)' };
+    return { border: '1px solid rgba(245, 158, 11, 0.2)', background: '#131825' };
   };
 
   const matchStyle = (id: string, isSelected: boolean, side: 0 | 1): React.CSSProperties => {
     const isMatched = matchedPairs.includes(id);
     const isWrong = wrongPair !== null && wrongPair[side] === id;
     return {
-      border: isMatched ? '2px solid #86EFAC' : isWrong ? '2px solid #EF4444' : isSelected ? '2px solid #3B82F6' : '1px solid #CBD5E1',
-      background: isMatched ? '#DCFCE7' : isWrong ? '#FEF2F2' : isSelected ? '#EFF6FF' : '#FFFFFF',
-      color: isMatched ? '#15803D' : '#1E293B',
+      border: isMatched ? '2px solid #86EFAC' : isWrong ? '2px solid #EF4444' : isSelected ? '2px solid #F59E0B' : '1px solid rgba(245, 158, 11, 0.2)',
+      background: isMatched ? 'rgba(34, 197, 94, 0.12)' : isWrong ? 'rgba(239, 68, 68, 0.12)' : isSelected ? 'rgba(245, 158, 11, 0.1)' : '#131825',
+      color: isMatched ? '#86EFAC' : '#F8FAFC',
       cursor: isMatched ? 'default' : 'pointer'
     };
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#FFFFFF', position: 'relative' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#0B0F19', position: 'relative' }}>
       {/* Top Navigation & Progress */}
       <div style={{ padding: '14px 18px 8px', display: 'flex', alignItems: 'center', gap: '12px' }}>
         <button
@@ -246,7 +246,7 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
             fontSize: '20px',
             cursor: 'pointer',
             padding: '4px',
-            color: '#64748B'
+            color: '#94A3B8'
           }}
           title="Exit lesson"
           aria-label="Exit lesson"
@@ -255,12 +255,12 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
         </button>
 
         {/* Progress Bar */}
-        <div style={{ flex: 1, height: '10px', background: '#E2E8F0', borderRadius: '10px', overflow: 'hidden' }}>
+        <div style={{ flex: 1, height: '10px', background: '#1E293B', borderRadius: '10px', overflow: 'hidden' }}>
           <div
             style={{
               width: `${progressPercent}%`,
               height: '100%',
-              background: '#22C55E',
+              background: '#F59E0B',
               borderRadius: '10px',
               transition: 'width 0.3s ease'
             }}
@@ -268,7 +268,7 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
         </div>
 
         {/* Hearts indicator */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 800, color: '#EF4444', fontSize: '15px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 800, color: '#FB7185', fontSize: '15px', fontFamily: 'monospace' }}>
           <span>{hearts > 0 ? '❤️' : '💔'}</span>
           <span>{hearts}</span>
         </div>
@@ -280,9 +280,9 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
           <div
             style={{
               alignSelf: 'flex-start',
-              background: '#FEF3C7',
-              color: '#B45309',
-              border: '1px solid #FCD34D',
+              background: 'rgba(245, 158, 11, 0.15)',
+              color: '#F59E0B',
+              border: '1px solid rgba(245, 158, 11, 0.3)',
               borderRadius: '10px',
               padding: '2px 8px',
               fontSize: '11px',
@@ -294,7 +294,7 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
             ↺ SECOND CHANCE · HALF XP
           </div>
         )}
-        <h2 style={{ fontSize: '19px', fontWeight: 800, color: '#0F172A', marginBottom: '8px' }}>
+        <h2 style={{ fontSize: '19px', fontWeight: 800, color: '#F8FAFC', marginBottom: '8px' }}>
           {step.title}
         </h2>
 
@@ -307,7 +307,7 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
         {/* Concept Card Narrative + takeaway */}
         {step.type === 'concept_card' && (
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: '15px', lineHeight: '1.6', color: '#334155', whiteSpace: 'pre-line' }}>
+            <div style={{ fontSize: '15px', lineHeight: '1.6', color: '#CBD5E1', whiteSpace: 'pre-line' }}>
               {renderRichText(step.narrative ?? '')}
             </div>
             {step.explanation && (
@@ -315,11 +315,11 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
                 style={{
                   marginTop: '14px',
                   padding: '10px 12px',
-                  background: '#FFFBEB',
+                  background: 'rgba(245, 158, 11, 0.1)',
                   borderLeft: '4px solid #F59E0B',
                   borderRadius: '10px',
                   fontSize: '13px',
-                  color: '#92400E',
+                  color: '#FDE047',
                   fontWeight: 600,
                   lineHeight: '1.4'
                 }}
@@ -333,7 +333,7 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
         {/* Binary Choice (True/False) */}
         {step.type === 'binary_choice' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', flex: 1 }}>
-            <div style={{ padding: '14px', background: '#F8FAFC', borderRadius: '16px', border: '1px solid #CBD5E1', fontSize: '15px', fontWeight: 600, color: '#1E293B', lineHeight: '1.4' }}>
+            <div style={{ padding: '14px', background: '#131825', borderRadius: '16px', border: '1px solid rgba(245, 158, 11, 0.2)', fontSize: '15px', fontWeight: 600, color: '#F8FAFC', lineHeight: '1.4' }}>
               "{step.statement}"
             </div>
 
@@ -350,7 +350,7 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
                     fontWeight: 800,
                     fontSize: '15px',
                     cursor: isAnswerChecked ? 'default' : 'pointer',
-                    color: '#1E293B'
+                    color: '#F8FAFC'
                   }}
                 >
                   {val ? 'TRUE' : 'FALSE'}
@@ -363,14 +363,14 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
         {/* Interactive Slider */}
         {step.type === 'slider' && step.sliderConfig && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', flex: 1 }}>
-            <div style={{ fontSize: '14px', color: '#334155', fontWeight: 600, lineHeight: '1.4' }}>
+            <div style={{ fontSize: '14px', color: '#CBD5E1', fontWeight: 600, lineHeight: '1.4' }}>
               {step.question}
             </div>
 
-            <div style={{ background: '#F1F5F9', padding: '16px', borderRadius: '16px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px', marginBottom: '8px', fontSize: '12px', fontWeight: 700, color: '#475569' }}>
+            <div style={{ background: '#131825', padding: '16px', borderRadius: '16px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px', marginBottom: '8px', fontSize: '12px', fontWeight: 700, color: '#94A3B8' }}>
                 <span>{step.sliderConfig.labelLow}</span>
-                <span style={{ color: '#2563EB', fontWeight: 900, fontSize: '14px' }}>
+                <span style={{ color: '#FDE047', fontWeight: 900, fontSize: '14px' }}>
                   {formatSliderValue(step, sliderValue)}
                 </span>
                 <span style={{ textAlign: 'right' }}>{step.sliderConfig.labelHigh}</span>
@@ -388,7 +388,7 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
                 }}
                 disabled={isAnswerChecked || outOfHearts}
                 aria-label={step.question}
-                style={{ width: '100%', accentColor: '#2563EB', height: '8px', cursor: 'pointer' }}
+                style={{ width: '100%', accentColor: '#F59E0B', height: '8px', cursor: 'pointer' }}
               />
             </div>
 
@@ -398,8 +398,8 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
                 style={{
                   padding: '14px',
                   borderRadius: '16px',
-                  background: '#2563EB',
-                  color: '#FFFFFF',
+                  background: '#F59E0B',
+                  color: '#0B0F19',
                   border: 'none',
                   fontWeight: 800,
                   fontSize: '15px',
@@ -415,7 +415,7 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
         {/* Concept Match (tap pairs) */}
         {step.type === 'concept_match' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
-            <div style={{ fontSize: '13px', color: '#64748B', fontWeight: 600 }}>
+            <div style={{ fontSize: '13px', color: '#94A3B8', fontWeight: 600 }}>
               {step.question}
             </div>
 
@@ -467,7 +467,7 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
         {/* Spot the Flaw / Tradeoff Tribunal */}
         {(step.type === 'spot_the_flaw' || step.type === 'tradeoff_tribunal') && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
-            <div style={{ fontSize: '14px', color: '#334155', fontWeight: 600, lineHeight: '1.4' }}>
+            <div style={{ fontSize: '14px', color: '#CBD5E1', fontWeight: 600, lineHeight: '1.4' }}>
               {step.question}
             </div>
 
@@ -484,13 +484,13 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
                     textAlign: 'left',
                     fontWeight: 700,
                     fontSize: '13px',
-                    color: '#1E293B',
+                    color: '#F8FAFC',
                     cursor: isAnswerChecked ? 'default' : 'pointer'
                   }}
                 >
                   <div>{opt.text}</div>
                   {opt.subtext && (
-                    <div style={{ fontSize: '11px', color: '#64748B', fontWeight: 500, marginTop: '2px' }}>
+                    <div style={{ fontSize: '11px', color: '#94A3B8', fontWeight: 500, marginTop: '2px' }}>
                       {opt.subtext}
                     </div>
                   )}
@@ -505,18 +505,18 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '14px', flex: 1 }}>
             <ConfettiCanvas />
             <div style={{ fontSize: '50px', margin: '-30px 0 0' }}>🏆</div>
-            <div style={{ fontSize: '14px', color: '#475569', lineHeight: '1.4', whiteSpace: 'pre-line' }}>
+            <div style={{ fontSize: '14px', color: '#CBD5E1', lineHeight: '1.4', whiteSpace: 'pre-line' }}>
               {renderRichText(step.narrative ?? '')}
             </div>
 
             <div style={{ display: 'flex', gap: '14px', marginTop: '8px' }}>
-              <div style={{ background: '#FEF3C7', padding: '10px 18px', borderRadius: '14px', border: '1px solid #FCD34D' }}>
-                <div style={{ fontSize: '18px', fontWeight: 900, color: '#D97706' }}>+{earnedXp + step.xpValue} XP</div>
-                <div style={{ fontSize: '10px', color: '#B45309', fontWeight: 700 }}>Earned</div>
+              <div style={{ background: 'rgba(245, 158, 11, 0.15)', padding: '10px 18px', borderRadius: '14px', border: '1px solid rgba(245, 158, 11, 0.3)' }}>
+                <div style={{ fontSize: '18px', fontWeight: 900, color: '#FDE047' }}>+{earnedXp + step.xpValue} XP</div>
+                <div style={{ fontSize: '10px', color: '#F59E0B', fontWeight: 700 }}>Earned</div>
               </div>
-              <div style={{ background: '#FFEDD5', padding: '10px 18px', borderRadius: '14px', border: '1px solid #FDBA74' }}>
-                <div style={{ fontSize: '18px', fontWeight: 900, color: '#EA580C' }}>Day {streakAfter} 🔥</div>
-                <div style={{ fontSize: '10px', color: '#C2410C', fontWeight: 700 }}>Streak</div>
+              <div style={{ background: 'rgba(234, 88, 12, 0.15)', padding: '10px 18px', borderRadius: '14px', border: '1px solid rgba(234, 88, 12, 0.3)' }}>
+                <div style={{ fontSize: '18px', fontWeight: 900, color: '#FB923C' }}>Day {streakAfter} 🔥</div>
+                <div style={{ fontSize: '10px', color: '#EA580C', fontWeight: 700 }}>Streak</div>
               </div>
             </div>
           </div>
@@ -528,16 +528,16 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
         <div
           style={{
             padding: '14px 18px',
-            borderTop: '1px solid #E2E8F0',
-            background: isAnswerChecked ? (isCorrect ? '#F0FDF4' : '#FEF2F2') : outOfHearts ? '#FEF2F2' : '#FFFFFF'
+            borderTop: '1px solid rgba(245, 158, 11, 0.2)',
+            background: isAnswerChecked ? (isCorrect ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)') : outOfHearts ? 'rgba(239, 68, 68, 0.1)' : '#0B0F19'
           }}
         >
           {isAnswerChecked && (
             <div style={{ marginBottom: '10px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 800, fontSize: '15px', color: isCorrect ? '#16A34A' : '#DC2626' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 800, fontSize: '15px', color: isCorrect ? '#4ADE80' : '#FB7185' }}>
                 <span>{isCorrect ? `✓ Spot on!${stepXp > 0 ? ` +${stepXp} XP` : ''}` : '✕ Not quite:'}</span>
               </div>
-              <div style={{ fontSize: '12px', color: '#334155', marginTop: '3px', lineHeight: '1.4' }}>
+              <div style={{ fontSize: '12px', color: '#CBD5E1', marginTop: '3px', lineHeight: '1.4' }}>
                 {step.explanation}
               </div>
             </div>
@@ -545,8 +545,8 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
 
           {outOfHearts ? (
             <>
-              <div style={{ fontWeight: 800, fontSize: '14px', color: '#DC2626', marginBottom: '2px' }}>💔 Out of hearts</div>
-              <div style={{ fontSize: '12px', color: '#334155', marginBottom: '10px', lineHeight: '1.4' }}>
+              <div style={{ fontWeight: 800, fontSize: '14px', color: '#FB7185', marginBottom: '2px' }}>💔 Out of hearts</div>
+              <div style={{ fontSize: '12px', color: '#CBD5E1', marginBottom: '10px', lineHeight: '1.4' }}>
                 Win one back with a quick review drill, or wait for the free refill (1 heart every 4 hours).
               </div>
               <button
@@ -555,8 +555,8 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
                   width: '100%',
                   padding: '14px',
                   borderRadius: '16px',
-                  background: '#EF4444',
-                  color: '#FFFFFF',
+                  background: '#FB7185',
+                  color: '#0B0F19',
                   border: 'none',
                   fontWeight: 800,
                   fontSize: '15px',
@@ -575,8 +575,8 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
                   width: '100%',
                   padding: '14px',
                   borderRadius: '16px',
-                  background: isAnswerChecked ? (isCorrect ? '#22C55E' : '#EF4444') : '#2563EB',
-                  color: '#FFFFFF',
+                  background: isAnswerChecked ? (isCorrect ? '#22C55E' : '#FB7185') : '#F59E0B',
+                  color: '#0B0F19',
                   border: 'none',
                   fontWeight: 800,
                   fontSize: '15px',
@@ -592,20 +592,21 @@ export const LessonEngine: React.FC<LessonEngineProps> = ({
       )}
 
       {step.type === 'celebration' && (
-        <div style={{ padding: '14px 18px', borderTop: '1px solid #E2E8F0', background: '#FFFFFF' }}>
+        <div style={{ padding: '14px 18px', borderTop: '1px solid rgba(245, 158, 11, 0.2)', background: '#0B0F19' }}>
           <button
             onClick={() => onLessonComplete(earnedXp + step.xpValue)}
             style={{
               width: '100%',
               padding: '16px',
               borderRadius: '16px',
-              background: '#22C55E',
-              color: '#FFFFFF',
+              background: '#F59E0B',
+              color: '#0B0F19',
               border: 'none',
               fontWeight: 800,
               fontSize: '16px',
               cursor: 'pointer',
-              boxShadow: '0 4px 0 #16A34A'
+              boxShadow: '0 4px 0 #B45309',
+              fontFamily: 'monospace'
             }}
           >
             Claim Rewards & Return to Path

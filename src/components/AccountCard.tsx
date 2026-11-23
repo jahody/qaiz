@@ -11,9 +11,9 @@ export interface AccountCardProps {
 
 const card: React.CSSProperties = {
   padding: '14px',
-  background: '#FFFFFF',
+  background: '#131825',
   borderRadius: '16px',
-  border: '1px solid #E2E8F0'
+  border: '1px solid rgba(245, 158, 11, 0.2)'
 };
 
 const GoogleLogo = () => (
@@ -44,8 +44,8 @@ export const AccountCard: React.FC<AccountCardProps> = ({ user, authReady, syncS
   if (!authReady) {
     return (
       <div style={card}>
-        <div style={{ fontWeight: 700, fontSize: '14px', color: '#1E293B' }}>Google account</div>
-        <div style={{ fontSize: '12px', color: '#64748B' }}>Checking sign-in…</div>
+        <div style={{ fontWeight: 700, fontSize: '14px', color: '#F8FAFC' }}>Google account</div>
+        <div style={{ fontSize: '12px', color: '#94A3B8' }}>Checking sign-in…</div>
       </div>
     );
   }
@@ -53,9 +53,9 @@ export const AccountCard: React.FC<AccountCardProps> = ({ user, authReady, syncS
   if (!user) {
     return (
       <div style={card}>
-        <div style={{ fontWeight: 700, fontSize: '14px', color: '#1E293B' }}>Google account</div>
-        <div style={{ fontSize: '12px', color: '#64748B', marginBottom: '10px' }}>
-          Sign in to keep your progress in sync across devices.
+        <div style={{ fontWeight: 700, fontSize: '14px', color: '#F8FAFC' }}>Google account</div>
+        <div style={{ fontSize: '12px', color: '#94A3B8', marginBottom: '10px' }}>
+          Sign in to keep your progress in sync across devices and post to the leaderboard.
         </div>
         <button
           onClick={onSignIn}
@@ -67,9 +67,9 @@ export const AccountCard: React.FC<AccountCardProps> = ({ user, authReady, syncS
             gap: '10px',
             padding: '10px 14px',
             borderRadius: '12px',
-            border: '1px solid #DADCE0',
-            background: '#FFFFFF',
-            color: '#3C4043',
+            border: '1px solid rgba(245, 158, 11, 0.3)',
+            background: '#0B0F19',
+            color: '#F8FAFC',
             fontWeight: 600,
             fontSize: '14px',
             cursor: 'pointer'
@@ -93,7 +93,7 @@ export const AccountCard: React.FC<AccountCardProps> = ({ user, authReady, syncS
             alt=""
             referrerPolicy="no-referrer"
             onError={() => setPhotoFailed(true)}
-            style={{ width: '38px', height: '38px', borderRadius: '50%', flexShrink: 0 }}
+            style={{ width: '38px', height: '38px', borderRadius: '50%', flexShrink: 0, border: '2px solid #F59E0B' }}
           />
         ) : (
           <div
@@ -102,8 +102,8 @@ export const AccountCard: React.FC<AccountCardProps> = ({ user, authReady, syncS
               height: '38px',
               borderRadius: '50%',
               flexShrink: 0,
-              background: '#2563EB',
-              color: '#FFFFFF',
+              background: '#F59E0B',
+              color: '#0B0F19',
               fontWeight: 800,
               display: 'flex',
               alignItems: 'center',
@@ -114,11 +114,11 @@ export const AccountCard: React.FC<AccountCardProps> = ({ user, authReady, syncS
           </div>
         )}
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontWeight: 700, fontSize: '14px', color: '#1E293B', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <div style={{ fontWeight: 700, fontSize: '14px', color: '#F8FAFC', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {user.name || 'Signed in'}
           </div>
           {user.email && (
-            <div style={{ fontSize: '12px', color: '#64748B', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <div style={{ fontSize: '12px', color: '#94A3B8', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {user.email}
             </div>
           )}
@@ -128,9 +128,9 @@ export const AccountCard: React.FC<AccountCardProps> = ({ user, authReady, syncS
           style={{
             padding: '8px 12px',
             borderRadius: '12px',
-            border: '1px solid #E2E8F0',
-            background: '#F8FAFC',
-            color: '#475569',
+            border: '1px solid rgba(245, 158, 11, 0.2)',
+            background: '#0B0F19',
+            color: '#94A3B8',
             fontWeight: 700,
             fontSize: '13px',
             cursor: 'pointer',

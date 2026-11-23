@@ -24,12 +24,12 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 }) => {
   const signedIn = !!account?.user;
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#F8FAFC', padding: '16px', overflowY: 'auto' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#0B0F19', padding: '16px', overflowY: 'auto' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-        <h2 style={{ fontSize: '18px', fontWeight: 900, color: '#0F172A' }}>Settings</h2>
+        <h2 style={{ fontSize: '18px', fontWeight: 900, color: '#F8FAFC' }}>Settings</h2>
         <button
           onClick={onClose}
-          style={{ background: 'none', border: 'none', fontSize: '18px', cursor: 'pointer', color: '#64748B' }}
+          style={{ background: 'none', border: 'none', fontSize: '18px', cursor: 'pointer', color: '#94A3B8' }}
         >
           ✕
         </button>
@@ -39,10 +39,10 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         {account && <AccountCard {...account} />}
 
         {/* Sound toggle */}
-        <div style={{ padding: '14px', background: '#FFFFFF', borderRadius: '16px', border: '1px solid #E2E8F0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ padding: '14px', background: '#131825', borderRadius: '16px', border: '1px solid rgba(245, 158, 11, 0.2)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
-            <div style={{ fontWeight: 700, fontSize: '14px', color: '#1E293B' }}>Sound Effects</div>
-            <div style={{ fontSize: '12px', color: '#64748B' }}>Chimes on correct answers and completions</div>
+            <div style={{ fontWeight: 700, fontSize: '14px', color: '#F8FAFC' }}>Sound Effects</div>
+            <div style={{ fontSize: '12px', color: '#94A3B8' }}>Chimes on correct answers and completions</div>
           </div>
           <button
             onClick={() => {
@@ -53,8 +53,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               padding: '8px 14px',
               borderRadius: '12px',
               border: 'none',
-              background: soundEnabled ? '#22C55E' : '#E2E8F0',
-              color: soundEnabled ? '#FFFFFF' : '#475569',
+              background: soundEnabled ? '#F59E0B' : '#1E293B',
+              color: soundEnabled ? '#0B0F19' : '#94A3B8',
               fontWeight: 800,
               fontSize: '13px',
               cursor: 'pointer'
@@ -65,10 +65,10 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         </div>
 
         {/* Haptics toggle */}
-        <div style={{ padding: '14px', background: '#FFFFFF', borderRadius: '16px', border: '1px solid #E2E8F0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ padding: '14px', background: '#131825', borderRadius: '16px', border: '1px solid rgba(245, 158, 11, 0.2)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
-            <div style={{ fontWeight: 700, fontSize: '14px', color: '#1E293B' }}>Vibration & Haptics</div>
-            <div style={{ fontSize: '12px', color: '#64748B' }}>Tactile pulses on mobile phone taps</div>
+            <div style={{ fontWeight: 700, fontSize: '14px', color: '#F8FAFC' }}>Vibration & Haptics</div>
+            <div style={{ fontSize: '12px', color: '#94A3B8' }}>Tactile pulses on mobile phone taps</div>
           </div>
           <button
             onClick={onToggleHaptics}
@@ -76,8 +76,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               padding: '8px 14px',
               borderRadius: '12px',
               border: 'none',
-              background: hapticsEnabled ? '#22C55E' : '#E2E8F0',
-              color: hapticsEnabled ? '#FFFFFF' : '#475569',
+              background: hapticsEnabled ? '#F59E0B' : '#1E293B',
+              color: hapticsEnabled ? '#0B0F19' : '#94A3B8',
               fontWeight: 800,
               fontSize: '13px',
               cursor: 'pointer'
@@ -88,11 +88,11 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         </div>
 
         {/* PWA Info */}
-        <div style={{ padding: '16px', background: '#EFF6FF', borderRadius: '16px', border: '1px solid #BFDBFE' }}>
-          <div style={{ fontWeight: 800, fontSize: '13px', color: '#1E40AF', marginBottom: '4px' }}>
+        <div style={{ padding: '16px', background: 'rgba(245, 158, 11, 0.08)', borderRadius: '16px', border: '1px solid rgba(245, 158, 11, 0.2)' }}>
+          <div style={{ fontWeight: 800, fontSize: '13px', color: '#FDE047', marginBottom: '4px' }}>
             📱 Install as an app
           </div>
-          <div style={{ fontSize: '12px', color: '#3B82F6', lineHeight: '1.4' }}>
+          <div style={{ fontSize: '12px', color: '#CBD5E1', lineHeight: '1.4' }}>
             Open this web page in Chrome on your phone, tap the <strong>⋮ menu</strong>, then select <strong>"Add to Home screen"</strong> or <strong>"Install app"</strong>. It will run full-screen offline!
           </div>
         </div>
@@ -112,9 +112,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               width: '100%',
               padding: '12px',
               borderRadius: '14px',
-              background: '#FEE2E2',
-              color: '#DC2626',
-              border: '1px solid #FECACA',
+              background: 'rgba(239, 68, 68, 0.15)',
+              color: '#FB7185',
+              border: '1px solid rgba(239, 68, 68, 0.3)',
               fontWeight: 700,
               fontSize: '13px',
               cursor: 'pointer'

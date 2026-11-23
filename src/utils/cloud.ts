@@ -95,3 +95,47 @@ export function describeCloudError(e: unknown): string {
   if (code === 'permission-denied') return 'The cloud database refused access. Check the Firestore rules.';
   return 'Something went wrong. Try again in a moment.';
 }
+
+
+// ─── Leaderboard ────────────────────────────────────────────────────────────
+
+export interface LeaderboardEntry {
+  uid: string;
+  name: string;
+  photoURL: string | null;
+  xp: number;
+  streak: number;
+  lessonsCompleted: number;
+}
+
+/** Writes this user's public leaderboard entry. Called after every sync. */
+export async function updateLeaderboardEntry(
+  uid: string,
+  user: CloudUser,
+  xp: number,
+  streak: number,
+  lessonsCompleted: number
+): Promise<void> {
+  const { db, dbLib } = await load();
+  const ref = dbLib.doc(db, 'leaderboard', uid);
+  await dbLib.setDoc(ref, {
+    name: user.name || 'Anonymous',
+    photoURL: user.photoURL || null,
+    xp,
+    streak,
+    lessonsCompleted,
+    updatedAt: Date.now()
+  });
+}
+
+/** Fetches the top players ordered by XP descending. */
+export async function fetchLeaderboard(limitCount = 50): Promise<LeaderboardEntry[]> {
+  const { db, dbLib } = await load();
+  const col = dbLib.collection(db, 'leaderboard');
+  const q = dbLib.query(col, dbLib.orderBy('xp', 'desc'), dbLib.limit(limitCount));
+  const snap = await dbLib.getDocs(q);
+  return snap.docs.map((d) => ({
+    uid: d.id,
+    ...(d.data() as Omit<LeaderboardEntry, 'uid'>)
+  }));
+}

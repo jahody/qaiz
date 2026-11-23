@@ -4,6 +4,7 @@ import type { UserStats, Unit } from './types';
 import { LearningPath } from './components/LearningPath';
 import { LessonEngine } from './components/LessonEngine';
 import { PracticeScreen, PRACTICE_XP_REWARD } from './components/PracticeScreen';
+import { Leaderboard } from './components/Leaderboard';
 import { SettingsModal } from './components/SettingsModal';
 import { sound } from './utils/sound';
 import {
@@ -17,12 +18,15 @@ import {
 import { cloudEnabled } from './firebaseConfig';
 import {
   describeCloudError,
+  fetchLeaderboard,
   signInWithGoogle,
   signOutOfGoogle,
   syncProgress,
+  updateLeaderboardEntry,
   watchUser,
   type CloudSyncState,
-  type CloudUser
+  type CloudUser,
+  type LeaderboardEntry
 } from './utils/cloud';
 import { mergeProgress, syncedPart } from './utils/sync';
 
@@ -59,7 +63,7 @@ export function App() {
   });
 
   const [activeUnit, setActiveUnit] = useState<Unit | null>(null);
-  const [currentTab, setCurrentTab] = useState<'path' | 'practice' | 'settings'>('path');
+  const [currentTab, setCurrentTab] = useState<'path' | 'practice' | 'leaderboard' | 'settings'>('path');
   const [isWide, setIsWide] = useState<boolean>(() => matches(WIDE_QUERY));
   // The phone-frame mockup is for previewing on a desktop; on a phone (or installed) the app fills the screen.
   const [isPhoneFrame, setIsPhoneFrame] = useState<boolean>(
@@ -107,13 +111,42 @@ export function App() {
 
   // Google sign-in and cloud sync (only when firebaseConfig is filled in)
   const [cloudUser, setCloudUser] = useState<CloudUser | null>(null);
+  const cloudUserRef = useRef(cloudUser);
   const [authReady, setAuthReady] = useState(false);
   const [syncState, setSyncState] = useState<CloudSyncState>({ status: 'idle' });
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
+  const [leaderboardLoading, setLeaderboardLoading] = useState(false);
+  const [leaderboardError, setLeaderboardError] = useState<string | null>(null);
   const statsRef = useRef(stats);
   const lastSyncedKey = useRef('');
   const syncRunning = useRef(false);
   const syncAgain = useRef(false);
   const uid = cloudUser?.uid ?? null;
+
+  useEffect(() => {
+    cloudUserRef.current = cloudUser;
+  }, [cloudUser]);
+
+  const loadLeaderboard = useCallback(async () => {
+    if (!cloudEnabled) return;
+    setLeaderboardLoading(true);
+    setLeaderboardError(null);
+    try {
+      const list = await fetchLeaderboard();
+      setLeaderboard(list);
+    } catch (e) {
+      console.warn('Failed to load leaderboard', e);
+      setLeaderboardError(describeCloudError(e));
+    } finally {
+      setLeaderboardLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (currentTab === 'leaderboard') {
+      void loadLeaderboard();
+    }
+  }, [currentTab, loadLeaderboard]);
 
   useEffect(() => {
     statsRef.current = stats;
@@ -157,6 +190,15 @@ export function App() {
         // Progress made while the request was in flight is merged in again, not overwritten.
         setStats((prev) => applyHeartRefill({ ...prev, ...mergeProgress(syncedPart(prev), merged) }));
         setSyncState({ status: 'synced', at: Date.now() });
+        if (cloudUserRef.current) {
+          void updateLeaderboardEntry(
+            uid,
+            cloudUserRef.current,
+            merged.xp,
+            merged.streak,
+            merged.completedLessons.length
+          ).catch((e) => console.warn('Leaderboard update failed', e));
+        }
       } catch (e) {
         console.warn('Sync failed', e);
         setSyncState({ status: 'error', message: describeCloudError(e) });
@@ -346,7 +388,7 @@ export function App() {
           maxWidth: isPhoneFrame ? '390px' : '640px',
           height: isPhoneFrame ? '820px' : showOuterBar ? 'calc(100dvh - 44px)' : '100dvh',
           maxHeight: isPhoneFrame ? '92vh' : '100dvh',
-          background: activeUnit ? '#FFFFFF' : '#0B0F19',
+          background: '#0B0F19',
           borderRadius: isPhoneFrame ? '36px' : '0',
           border: isPhoneFrame ? '8px solid #141B2D' : 'none',
           boxShadow: isPhoneFrame ? '0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px -10px rgba(245, 158, 11, 0.15)' : 'none',
@@ -464,6 +506,15 @@ export function App() {
               onReward={handlePracticeReward}
               onBackToPath={() => setCurrentTab('path')}
             />
+          ) : currentTab === 'leaderboard' ? (
+            <Leaderboard
+              entries={leaderboard}
+              currentUid={uid}
+              loading={leaderboardLoading}
+              error={leaderboardError}
+              onRefresh={loadLeaderboard}
+              signedIn={!!cloudUser}
+            />
           ) : (
             <SettingsModal
               soundEnabled={stats.soundEnabled}
@@ -496,6 +547,7 @@ export function App() {
             {[
               { id: 'path', label: 'Learn', icon: '🗺️' },
               { id: 'practice', label: 'Practice', icon: '🩺' },
+              { id: 'leaderboard', label: 'Rank', icon: '🏆' },
               { id: 'settings', label: 'Settings', icon: '⚙️' }
             ].map((tab) => {
               const isActive = currentTab === tab.id;
