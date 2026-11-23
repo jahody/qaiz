@@ -1,8 +1,10 @@
 # Qaiz
 
-A bite-sized, gamified PWA designed to educate and sharpen intuition for a **PhD student focused on autonomous AI agents automating scientific research**. 
+A bite-sized, gamified PWA created specifically for **Adam Zlámal** as a personal learning companion for his **PhD in Artificial Intelligence, focused on autonomous AI agents automating scientific research**.
 
-The entire curriculum is structured to be complementary to doctoral-level AI research: from foundational probability, statistical uncertainty, and high-dimensional representations, through neural architectures and LLM reasoning, to agentic workflows, autonomous tool orchestration, and RAG.
+Because Adam does not have a Master's education in Information Technologies or Computer Science, the curriculum is intentionally designed to build rigorous intuition and conceptual mastery through first-principles interactive simulations, system trade-offs, and visual models — without requiring or assuming traditional IT/CS coursework or code boilerplate.
+
+The curriculum forms a cohesive foundation for doctoral-level AI research: from probability and statistical uncertainty, through high-dimensional representations, neural architectures, and LLM reasoning, to closed-loop agentic tool orchestration and scientific synthesis.
 
 Everything runs in the browser, works offline once installed as a PWA, and syncs progress and leaderboard rankings across devices via Firebase.
 
