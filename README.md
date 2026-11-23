@@ -1,8 +1,8 @@
 # Qaiz
 
-A bite-sized, gamified PWA created specifically for **Adam Zlámal** as a personal learning companion for his **PhD in Artificial Intelligence, focused on autonomous AI agents automating scientific research**.
+A bite-sized, gamified PWA created specifically as a personal learning companion for a **PhD student in Artificial Intelligence, focused on autonomous AI agents automating scientific research**.
 
-Because Adam does not have a Master's education in Information Technologies or Computer Science, the curriculum is intentionally designed to build rigorous intuition and conceptual mastery through first-principles interactive simulations, system trade-offs, and visual models — without requiring or assuming traditional IT/CS coursework or code boilerplate.
+Without a Master's education in Information Technologies or Computer Science, the curriculum is intentionally designed to build rigorous intuition and conceptual mastery through first-principles interactive simulations, system trade-offs, and visual models — without requiring or assuming traditional IT/CS coursework or code boilerplate.
 
 The curriculum forms a cohesive foundation for doctoral-level AI research: from probability and statistical uncertainty, through high-dimensional representations, neural architectures, and LLM reasoning, to closed-loop agentic tool orchestration and scientific synthesis.
 

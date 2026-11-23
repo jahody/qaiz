@@ -4,11 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Qaiz is a personalized, mobile-first PWA created specifically for **Adam Zlámal** as his dedicated learning companion for his **PhD in Artificial Intelligence, focused on autonomous AI agents automating scientific research**. 
+Qaiz is a personalized, mobile-first PWA created specifically as a dedicated learning companion for a **PhD student in Artificial Intelligence, focused on autonomous AI agents automating scientific research**. 
 
-Importantly, Adam **does not have a Master's education in Information Technologies or Computer Science**. The application is therefore explicitly structured around this profile:
-- **Tailored for Adam's PhD Focus:** Every track directly complements his doctoral research on autonomous AI agents automating scientific discovery — spanning statistical uncertainty, high-dimensional embeddings, neural optimization dynamics, LLM reasoning architectures, and closed-loop agentic tool orchestration.
-- **First-Principles Conceptual Intuition:** Because Adam does not come from a traditional IT/CS master's background, the curriculum does not assume prior computer science coursework or rely on code/implementation boilerplate. Instead, it builds deep, rigorous understanding through first-principles conceptual models, interactive visual simulators, system sliders, tradeoff tribunals, and flaw-detection puzzles.
+Importantly, the student **does not have a Master's education in Information Technologies or Computer Science**. The application is therefore explicitly structured around this profile:
+- **Tailored for PhD Focus:** Every track directly complements doctoral research on autonomous AI agents automating scientific discovery — spanning statistical uncertainty, high-dimensional embeddings, neural optimization dynamics, LLM reasoning architectures, and closed-loop agentic tool orchestration.
+- **First-Principles Conceptual Intuition:** Without a traditional IT/CS master's background, the curriculum does not assume prior computer science coursework or rely on code/implementation boilerplate. Instead, it builds deep, rigorous understanding through first-principles conceptual models, interactive visual simulators, system sliders, tradeoff tribunals, and flaw-detection puzzles.
 - **Format:** Gamified micro-learning built for daily commute and high-retention reinforcement, backed by hearts, streaks, XP, persistent storage, and cross-device sync.
 
 It is a React 19 + TypeScript + Vite single-page app with no server of its own: progress lives in `localStorage`, and an optional Google sign-in (Firebase) syncs it across devices and powers the shared leaderboard. `README.md` lists the curriculum and game rules; keep it in sync when lessons or rules change.
