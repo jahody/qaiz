@@ -1,8 +1,10 @@
 # Qaiz
 
-Bite-sized, zero-code AI lessons for your commute. Qaiz is a gamified PWA in the spirit of language-learning apps: short interactive lessons, hearts, XP and daily streaks. It teaches how modern AI works by intuition and play, not by code or formulas.
+A bite-sized, gamified PWA designed to educate and sharpen intuition for a **PhD student focused on autonomous AI agents automating scientific research**. 
 
-Everything runs in the browser and the app works offline once installed.
+The entire curriculum is structured to be complementary to doctoral-level AI research: from foundational probability, statistical uncertainty, and high-dimensional representations, through neural architectures and LLM reasoning, to agentic workflows, autonomous tool orchestration, and RAG.
+
+Everything runs in the browser, works offline once installed as a PWA, and syncs progress and leaderboard rankings across devices via Firebase.
 
 ## Curriculum
 

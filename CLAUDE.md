@@ -4,7 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Qaiz is a mobile-first PWA that teaches AI concepts without code, Duolingo-style: 5 tracks and 13 short lessons built from interactive steps, with hearts, XP and streaks. It is a React 19 + TypeScript + Vite single-page app with no server of its own: progress lives in `localStorage`, and an optional Google sign-in (Firebase) syncs it across devices. The leaderboard and leagues were removed on purpose (there are no other users to rank against). `README.md` lists the curriculum and game rules; keep it in sync when lessons or rules change.
+Qaiz is a mobile-first PWA designed specifically to educate a **PhD student specializing in AI agents automating scientific research**. 
+
+The core mission of the application is to serve as a complementary, high-retention learning curriculum for PhD-level AI education:
+- Every track is designed to build foundational and advanced intuition directly supporting research on autonomous AI agents, scientific discovery, and automated experimentation.
+- Lessons synthesize rigorous concepts without code boilerplate: foundational statistics and uncertainty estimation, data representation and embeddings, neural architectures and training dynamics, LLM inference and reasoning, through to autonomous agentic architectures, ReAct tool execution, and RAG.
+- The learning mechanism follows a gamified micro-learning format: short interactive units built from interactive simulators, tradeoff decisions, sliders, and spot-the-flaw drills, backed by hearts, XP, daily streaks, and an opt-in leaderboard.
+
+It is a React 19 + TypeScript + Vite single-page app with no server of its own: progress lives in `localStorage`, and an optional Google sign-in (Firebase) syncs it across devices and powers the shared leaderboard. `README.md` lists the curriculum and game rules; keep it in sync when lessons or rules change.
 
 ## Commands
 
@@ -62,6 +69,11 @@ The curriculum makes factual claims (named studies, model sizes, dates). When ed
 
 ## Styling
 
-Styles are inline `style={{...}}` objects; there are no CSS modules or utility classes. `src/index.css` holds a reset, button press feedback, thin amber scrollbars and one keyframe. The brand ("Synapse Core" logo, "Solar Amber Cyber-Bento") uses dark obsidian chrome (`#0B0F19`) with amber `#F59E0B` / yellow `#FDE047` accents for the header, tab bar and learning path. Lesson, practice and settings screens use a light palette (white, slate, blue `#2563EB` actions, green/red feedback). Keep both halves when adding screens.
+Styles are inline `style={{...}}` objects; there are no CSS modules or utility classes. `src/index.css` holds a reset, button press feedback, thin amber scrollbars and one keyframe. The brand ("Synapse Core" logo, "Solar Amber Cyber-Bento") uses a unified dark obsidian palette across all screens:
+- Backgrounds: `#0B0F19` with card containers in `#131825` and subtle amber borders (`rgba(245, 158, 11, 0.2)`).
+- Accents: solar amber `#F59E0B` and voltage yellow `#FDE047` for progress, selections, and rewards; flame orange `#EA580C` for streaks; coral rose `#FB7185` for health.
+- Text: `#F8FAFC` headings, `#CBD5E1` body, and monospace font for stats and counts.
+
+All screens — Learning Path, LessonEngine, Practice, Leaderboard, and Settings — share this dark cybernetic aesthetic.
 
 On screens 600px and wider the app opens in a "Pixel 8a" phone-frame preview with a top bar (toggle to responsive); on phones and when installed it fills the screen and hides that bar. The logo SVG is inlined in `App.tsx` and duplicated as `public/icon.svg` / `favicon.svg`.
